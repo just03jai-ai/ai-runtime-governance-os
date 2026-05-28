@@ -5,6 +5,7 @@ AI Runtime Governance OS is an AI-native operational governance platform that co
 
 This scaffold implements the first operational runtime layer only:
 
+- `src/config` contains environment-aware, Zod-validated operational configuration.
 - `src/agents/execution` contains the `ExecutionAgent` skeleton that orchestrates one runtime inspection.
 - `src/agents/governance`, `src/agents/verifier`, and `src/agents/analyzer` are reserved for future agent implementations.
 - `src/runtime/extraction` contains Playwright-backed DOM extraction services.

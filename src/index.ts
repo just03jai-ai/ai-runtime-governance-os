@@ -1,3 +1,4 @@
+export * from "./config/index.js";
 export * from "./agents/index.js";
 export * from "./governance/index.js";
 export * from "./orchestration/index.js";
