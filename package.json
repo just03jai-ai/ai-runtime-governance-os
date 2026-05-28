@@ -1,0 +1,25 @@
+{
+  "name": "ai-runtime-governance-os",
+  "version": "1.0.0",
+  "description": "AI Runtime Governance OS is an AI-native operational governance platform that continuously inspects, validates, verifies, analyzes, and monitors production UI systems using runtime evidence, governance contracts, and design-system intelligence to deliver continuous operational observability and release confidence.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/just03jai-ai/ai-runtime-governance-os.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/just03jai-ai/ai-runtime-governance-os/issues"
+  },
+  "homepage": "https://github.com/just03jai-ai/ai-runtime-governance-os#readme",
+  "devDependencies": {
+    "@types/node": "^25.9.1",
+    "eslint": "^10.4.0",
+    "prettier": "^3.8.3"
+  }
+}
