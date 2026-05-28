@@ -1,0 +1,65 @@
+{
+  "contractId": "design-system.button",
+  "version": "1.0.0",
+  "componentType": "Button",
+  "description": "Approved runtime rules for button components.",
+  "allowedComponents": [
+    {
+      "componentType": "Button",
+      "tagName": "button"
+    },
+    {
+      "componentType": "Button",
+      "role": "button"
+    }
+  ],
+  "forbiddenComponents": [
+    {
+      "componentType": "Button",
+      "tagName": "div",
+      "selectorIncludes": "button"
+    }
+  ],
+  "requiredDesignTokens": [
+    {
+      "name": "color.action.primary.background",
+      "category": "color"
+    },
+    {
+      "name": "radius.control.default",
+      "category": "radius"
+    }
+  ],
+  "variantRules": [
+    {
+      "id": "button-primary-token-rule",
+      "componentType": "Button",
+      "variant": "primary",
+      "selectorIncludes": "primary",
+      "requiredTokens": ["color.action.primary.background"]
+    }
+  ],
+  "propRestrictions": [
+    {
+      "id": "button-visible-required",
+      "componentType": "Button",
+      "property": "visible",
+      "requiredValue": true
+    }
+  ],
+  "accessibilityRequirements": [
+    {
+      "id": "button-accessible-label",
+      "componentType": "Button",
+      "requireAccessibleLabel": true
+    }
+  ],
+  "severityMapping": {
+    "forbiddenComponent": "critical",
+    "unapprovedComponent": "warning",
+    "missingDesignToken": "warning",
+    "variantRuleViolation": "warning",
+    "propRestrictionViolation": "warning",
+    "accessibilityViolation": "critical"
+  }
+}

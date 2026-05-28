@@ -1,0 +1,58 @@
+{
+  "contractId": "design-system.typography",
+  "version": "1.0.0",
+  "componentType": "Typography",
+  "description": "Approved runtime rules for typography elements.",
+  "allowedComponents": [
+    {
+      "componentType": "Typography",
+      "tagName": "p"
+    },
+    {
+      "componentType": "Typography",
+      "tagName": "span"
+    },
+    {
+      "componentType": "Typography",
+      "tagName": "h1"
+    },
+    {
+      "componentType": "Typography",
+      "tagName": "h2"
+    },
+    {
+      "componentType": "Typography",
+      "tagName": "h3"
+    }
+  ],
+  "forbiddenComponents": [],
+  "requiredDesignTokens": [
+    {
+      "name": "typography.body.fontFamily",
+      "category": "typography"
+    },
+    {
+      "name": "typography.body.fontSize",
+      "category": "typography"
+    }
+  ],
+  "variantRules": [
+    {
+      "id": "typography-heading-token-rule",
+      "componentType": "Typography",
+      "variant": "heading",
+      "selectorIncludes": "heading",
+      "requiredTokens": ["typography.heading.fontSize"]
+    }
+  ],
+  "propRestrictions": [],
+  "accessibilityRequirements": [],
+  "severityMapping": {
+    "forbiddenComponent": "critical",
+    "unapprovedComponent": "info",
+    "missingDesignToken": "warning",
+    "variantRuleViolation": "warning",
+    "propRestrictionViolation": "warning",
+    "accessibilityViolation": "warning"
+  }
+}

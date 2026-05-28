@@ -1,0 +1,69 @@
+{
+  "contractId": "design-system.input",
+  "version": "1.0.0",
+  "componentType": "Input",
+  "description": "Approved runtime rules for input controls.",
+  "allowedComponents": [
+    {
+      "componentType": "Input",
+      "tagName": "input"
+    },
+    {
+      "componentType": "Input",
+      "tagName": "textarea"
+    },
+    {
+      "componentType": "Input",
+      "tagName": "select"
+    }
+  ],
+  "forbiddenComponents": [
+    {
+      "componentType": "Input",
+      "tagName": "div",
+      "selectorIncludes": "input"
+    }
+  ],
+  "requiredDesignTokens": [
+    {
+      "name": "color.input.border",
+      "category": "color"
+    },
+    {
+      "name": "spacing.input.paddingX",
+      "category": "spacing"
+    }
+  ],
+  "variantRules": [
+    {
+      "id": "input-error-token-rule",
+      "componentType": "Input",
+      "variant": "error",
+      "selectorIncludes": "error",
+      "requiredTokens": ["color.input.error.border"]
+    }
+  ],
+  "propRestrictions": [
+    {
+      "id": "input-visible-required",
+      "componentType": "Input",
+      "property": "visible",
+      "requiredValue": true
+    }
+  ],
+  "accessibilityRequirements": [
+    {
+      "id": "input-accessible-label",
+      "componentType": "Input",
+      "requireAccessibleLabel": true
+    }
+  ],
+  "severityMapping": {
+    "forbiddenComponent": "critical",
+    "unapprovedComponent": "warning",
+    "missingDesignToken": "warning",
+    "variantRuleViolation": "warning",
+    "propRestrictionViolation": "warning",
+    "accessibilityViolation": "critical"
+  }
+}

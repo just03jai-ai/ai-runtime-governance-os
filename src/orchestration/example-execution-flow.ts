@@ -1,10 +1,12 @@
 import { resolve } from "node:path";
-import { ExecutionAgent } from "../agents/execution-agent.js";
-import type { RuntimeExecutionRequest } from "../contracts/execution.js";
-import { EvidenceWriterService } from "../evidence/evidence-writer.service.js";
-import { RuntimeExtractionService } from "../runtime/runtime-extraction.service.js";
-import { ScreenshotService } from "../runtime/screenshot.service.js";
-import { TelemetryService } from "../telemetry/telemetry-service.js";
+import { ExecutionAgent } from "../agents/execution/execution-agent.js";
+import type { RuntimeExecutionRequest } from "../governance/contracts/execution.js";
+import { EvidenceWriterService } from "../runtime/evidence/evidence-writer.service.js";
+import { ScreenshotService } from "../runtime/evidence/screenshot.service.js";
+import { RuntimeExtractionService } from "../runtime/extraction/runtime-extraction.service.js";
+import { RuntimeEvidenceNormalizerService } from "../runtime/normalization/runtime-evidence-normalizer.service.js";
+import { TelemetryService } from "../runtime/telemetry/telemetry-service.js";
+import { createAgentLogger } from "../shared/logger/index.js";
 
 const request: RuntimeExecutionRequest = {
   targetUrl: process.env.TARGET_URL ?? "https://example.com",
@@ -20,19 +22,22 @@ const agent = new ExecutionAgent({
   telemetry: new TelemetryService(),
   runtimeExtraction: new RuntimeExtractionService(),
   screenshot: new ScreenshotService(),
+  evidenceNormalizer: new RuntimeEvidenceNormalizerService(),
   evidenceWriter: new EvidenceWriterService(),
   evidenceRoot: resolve("artifacts", "evidence"),
+  logger: createAgentLogger("ExecutionAgent"),
 });
 
-const bundle = await agent.execute(request);
+const evidence = await agent.execute(request);
 
 console.log(
   JSON.stringify(
     {
-      runId: bundle.summary.runId,
-      status: bundle.summary.status,
-      evidenceDirectory: bundle.summary.evidenceDirectory,
-      componentCount: bundle.summary.componentCount,
+      runId: evidence.execution.runId,
+      status: evidence.execution.status,
+      schemaVersion: evidence.schemaVersion,
+      componentCount: evidence.componentInventory.length,
+      screenshotCount: evidence.screenshots.length,
     },
     null,
     2,

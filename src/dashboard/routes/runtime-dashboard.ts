@@ -1,4 +1,4 @@
-import type { RuntimeExecutionSummary } from "../../contracts/execution.js";
+import type { RuntimeExecutionSummary } from "../../governance/contracts/execution.js";
 
 export interface DashboardRouteResponse {
   readonly route: "/dashboard/runtime";
