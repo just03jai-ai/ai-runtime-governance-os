@@ -1,0 +1,80 @@
+import type { GovernanceValidationFinding } from "../../src/governance/validation/governance-finding.js";
+import type { VerifiedFinding } from "../../src/agents/verifier/verified-finding.js";
+
+export const governanceFindingFixture: GovernanceValidationFinding = {
+  id: "runtime_test_001:Button.a11y.accessible-name:component-button-primary",
+  policy: "accessibility-requirement",
+  severity: "critical",
+  route: "https://example.test/checkout",
+  component: "component-button-primary",
+  evidence: {
+    componentId: "component-button-primary",
+    tagName: "button",
+    role: "button",
+    selectorHint: "button.primary.danger",
+    visible: true,
+  },
+  expected: "component has deterministic accessible label evidence",
+  actual: "empty label",
+  confidence: 1,
+};
+
+export const verifiedFindingsFixture: readonly VerifiedFinding[] = [
+  {
+    id: "verified-critical",
+    originalFindingId: "critical",
+    status: "verified",
+    severity: "critical",
+    route: "https://example.test/checkout",
+    component: "component-button-primary",
+    evidence: { componentId: "component-button-primary" },
+    expected: "accessible label",
+    actual: "empty label",
+    confidence: 0.95,
+    integrity: {
+      hasComponentEvidence: true,
+      hasDomEvidence: true,
+      hasScreenshotEvidence: true,
+      routeMatches: true,
+    },
+    reasons: [],
+  },
+  {
+    id: "verified-warning",
+    originalFindingId: "warning",
+    status: "verified",
+    severity: "warning",
+    route: "https://example.test/checkout",
+    component: "component-button-primary",
+    evidence: { componentId: "component-button-primary" },
+    expected: "design token",
+    actual: "missing",
+    confidence: 0.9,
+    integrity: {
+      hasComponentEvidence: true,
+      hasDomEvidence: true,
+      hasScreenshotEvidence: true,
+      routeMatches: true,
+    },
+    reasons: [],
+  },
+  {
+    id: "verified-info",
+    originalFindingId: "info",
+    status: "needs-review",
+    severity: "info",
+    route: "https://example.test/cart",
+    component: "component-link",
+    evidence: { componentId: "component-link" },
+    expected: "approved component",
+    actual: "unknown",
+    confidence: 0.65,
+    integrity: {
+      hasComponentEvidence: true,
+      hasDomEvidence: true,
+      hasScreenshotEvidence: false,
+      routeMatches: true,
+    },
+    reasons: ["screenshot evidence unavailable"],
+  },
+];

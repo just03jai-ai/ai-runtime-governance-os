@@ -1,0 +1,443 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>AI Runtime Governance OS Prototype</title>
+    <style>
+      :root {
+        --bg: #f4f6f8;
+        --surface: #ffffff;
+        --surface-2: #eef2f6;
+        --text: #111827;
+        --muted: #5f6b7a;
+        --border: #d8dee7;
+        --accent: #0f766e;
+        --critical: #b42318;
+        --warning: #b7791f;
+        --info: #2563eb;
+        --ok: #18794e;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        margin: 0;
+        background: var(--bg);
+        color: var(--text);
+        font-family:
+          Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+        line-height: 1.45;
+      }
+
+      header {
+        border-bottom: 1px solid var(--border);
+        background: var(--surface);
+      }
+
+      .topbar {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 24px;
+        max-width: 1240px;
+        margin: 0 auto;
+        padding: 18px 24px;
+      }
+
+      .brand {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        min-width: 0;
+      }
+
+      .mark {
+        width: 34px;
+        height: 34px;
+        border-radius: 7px;
+        background: linear-gradient(135deg, #0f766e, #1d4ed8);
+      }
+
+      .brand strong {
+        display: block;
+        font-size: 15px;
+        letter-spacing: 0;
+      }
+
+      .brand span {
+        display: block;
+        color: var(--muted);
+        font-size: 13px;
+      }
+
+      .status {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        color: var(--muted);
+        font-size: 13px;
+      }
+
+      .dot {
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+        background: var(--ok);
+      }
+
+      main {
+        max-width: 1240px;
+        margin: 0 auto;
+        padding: 24px;
+      }
+
+      .overview {
+        display: grid;
+        grid-template-columns: 1.6fr 1fr;
+        gap: 18px;
+        margin-bottom: 18px;
+      }
+
+      section,
+      .panel {
+        background: var(--surface);
+        border: 1px solid var(--border);
+        border-radius: 8px;
+      }
+
+      section {
+        padding: 18px;
+      }
+
+      h1,
+      h2,
+      h3,
+      p {
+        margin: 0;
+      }
+
+      h1 {
+        font-size: 24px;
+        line-height: 1.2;
+        margin-bottom: 8px;
+      }
+
+      h2 {
+        font-size: 15px;
+        margin-bottom: 14px;
+      }
+
+      h3 {
+        font-size: 13px;
+        color: var(--muted);
+        font-weight: 600;
+        margin-bottom: 8px;
+      }
+
+      .subtle {
+        color: var(--muted);
+        font-size: 14px;
+      }
+
+      .metrics {
+        display: grid;
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+        gap: 12px;
+        margin-top: 18px;
+      }
+
+      .metric {
+        padding: 14px;
+        border: 1px solid var(--border);
+        border-radius: 7px;
+        background: #fbfcfd;
+      }
+
+      .metric span {
+        display: block;
+        color: var(--muted);
+        font-size: 12px;
+        margin-bottom: 6px;
+      }
+
+      .metric strong {
+        display: block;
+        font-size: 25px;
+        line-height: 1.1;
+      }
+
+      .pipeline {
+        display: grid;
+        gap: 10px;
+      }
+
+      .stage {
+        display: grid;
+        grid-template-columns: 34px 1fr auto;
+        gap: 12px;
+        align-items: center;
+        padding: 10px;
+        border: 1px solid var(--border);
+        border-radius: 7px;
+        background: #fbfcfd;
+      }
+
+      .stage-index {
+        width: 28px;
+        height: 28px;
+        display: grid;
+        place-items: center;
+        border-radius: 6px;
+        background: var(--surface-2);
+        color: var(--muted);
+        font-size: 12px;
+        font-weight: 700;
+      }
+
+      .stage strong {
+        display: block;
+        font-size: 13px;
+      }
+
+      .stage span {
+        display: block;
+        color: var(--muted);
+        font-size: 12px;
+      }
+
+      .badge {
+        padding: 4px 8px;
+        border-radius: 999px;
+        font-size: 12px;
+        font-weight: 700;
+        background: #ecfdf3;
+        color: var(--ok);
+      }
+
+      .grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 18px;
+      }
+
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        font-size: 13px;
+      }
+
+      th,
+      td {
+        padding: 10px 8px;
+        border-bottom: 1px solid var(--border);
+        text-align: left;
+        vertical-align: top;
+      }
+
+      th {
+        color: var(--muted);
+        font-weight: 700;
+        background: #fbfcfd;
+      }
+
+      .severity-critical {
+        color: var(--critical);
+        font-weight: 700;
+      }
+
+      .severity-warning {
+        color: var(--warning);
+        font-weight: 700;
+      }
+
+      .severity-info {
+        color: var(--info);
+        font-weight: 700;
+      }
+
+      .route-list {
+        display: grid;
+        gap: 10px;
+      }
+
+      .route-row {
+        display: flex;
+        justify-content: space-between;
+        gap: 12px;
+        padding: 10px;
+        border: 1px solid var(--border);
+        border-radius: 7px;
+        background: #fbfcfd;
+        font-size: 13px;
+      }
+
+      code {
+        color: #334155;
+        word-break: break-word;
+      }
+
+      @media (max-width: 920px) {
+        .overview,
+        .grid,
+        .metrics {
+          grid-template-columns: 1fr;
+        }
+
+        .topbar {
+          align-items: flex-start;
+          flex-direction: column;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <div class="topbar">
+        <div class="brand">
+          <div class="mark" aria-hidden="true"></div>
+          <div>
+            <strong>AI Runtime Governance OS</strong>
+            <span>Operational prototype</span>
+          </div>
+        </div>
+        <div class="status"><span class="dot"></span>Local runtime ready</div>
+      </div>
+    </header>
+
+    <main>
+      <div class="overview">
+        <section>
+          <h1>Runtime governance pipeline</h1>
+          <p class="subtle">
+            Deterministic runtime inspection, contract validation, verification, reporting, and operational analysis
+            for production UI systems.
+          </p>
+          <div class="metrics">
+            <div class="metric"><span>Governance score</span><strong>86</strong></div>
+            <div class="metric"><span>Verified findings</span><strong>7</strong></div>
+            <div class="metric"><span>Routes inspected</span><strong>3</strong></div>
+            <div class="metric"><span>Evidence assets</span><strong>18</strong></div>
+          </div>
+        </section>
+
+        <section>
+          <h2>Execution order</h2>
+          <div class="pipeline">
+            <div class="stage">
+              <div class="stage-index">1</div>
+              <div><strong>ExecutionAgent</strong><span>Capture screenshot, DOM, telemetry</span></div>
+              <div class="badge">pass</div>
+            </div>
+            <div class="stage">
+              <div class="stage-index">2</div>
+              <div><strong>GovernanceAgent</strong><span>Apply approved contracts</span></div>
+              <div class="badge">pass</div>
+            </div>
+            <div class="stage">
+              <div class="stage-index">3</div>
+              <div><strong>VerifierAgent</strong><span>Verify evidence-backed findings</span></div>
+              <div class="badge">pass</div>
+            </div>
+            <div class="stage">
+              <div class="stage-index">4</div>
+              <div><strong>FindingsEngine</strong><span>Generate JSON and HTML reports</span></div>
+              <div class="badge">pass</div>
+            </div>
+            <div class="stage">
+              <div class="stage-index">5</div>
+              <div><strong>AnalyzerAgent</strong><span>Cluster patterns and root causes</span></div>
+              <div class="badge">pass</div>
+            </div>
+          </div>
+        </section>
+      </div>
+
+      <div class="grid">
+        <section>
+          <h2>Governance findings</h2>
+          <table>
+            <thead>
+              <tr>
+                <th>Severity</th>
+                <th>Component</th>
+                <th>Expected</th>
+                <th>Actual</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="severity-critical">critical</td>
+                <td>Input</td>
+                <td>accessible label evidence</td>
+                <td>empty label</td>
+              </tr>
+              <tr>
+                <td class="severity-warning">warning</td>
+                <td>Button</td>
+                <td><code>color.action.primary.background</code></td>
+                <td>missing token</td>
+              </tr>
+              <tr>
+                <td class="severity-info">info</td>
+                <td>Typography</td>
+                <td>approved component contract</td>
+                <td>unmapped selector</td>
+              </tr>
+            </tbody>
+          </table>
+        </section>
+
+        <section>
+          <h2>Route analysis</h2>
+          <div class="route-list">
+            <div class="route-row">
+              <span><code>/settings/billing</code></span>
+              <strong>4 findings</strong>
+            </div>
+            <div class="route-row">
+              <span><code>/dashboard</code></span>
+              <strong>2 findings</strong>
+            </div>
+            <div class="route-row">
+              <span><code>/login</code></span>
+              <strong>1 finding</strong>
+            </div>
+          </div>
+        </section>
+      </div>
+
+      <section style="margin-top: 18px">
+        <h2>Operational insights</h2>
+        <table>
+          <thead>
+            <tr>
+              <th>Pattern</th>
+              <th>Summary</th>
+              <th>Confidence</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Token drift</td>
+              <td><code>color.action.primary.background</code> missing across Button variants</td>
+              <td>1.00</td>
+            </tr>
+            <tr>
+              <td>Component misuse</td>
+              <td>Input controls have repeated accessibility evidence gaps</td>
+              <td>0.95</td>
+            </tr>
+            <tr>
+              <td>Route hotspot</td>
+              <td><code>/settings/billing</code> concentrates the highest finding count</td>
+              <td>1.00</td>
+            </tr>
+          </tbody>
+        </table>
+      </section>
+    </main>
+  </body>
+</html>

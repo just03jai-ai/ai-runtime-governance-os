@@ -6,8 +6,15 @@
   "type": "module",
   "scripts": {
     "build": "tsc --noEmit",
+    "cli": "tsx src/cli/cli.ts",
+    "audit": "tsx src/cli/cli.ts audit",
     "execute:example": "tsx src/orchestration/example-execution-flow.ts",
-    "test": "npm run build"
+    "prototype": "python3 -m http.server 3000 -d prototype",
+    "report": "tsx src/cli/cli.ts report",
+    "test:unit": "vitest run",
+    "validate": "tsx src/cli/cli.ts validate",
+    "verify": "tsx src/cli/cli.ts verify",
+    "test": "npm run build && vitest run"
   },
   "repository": {
     "type": "git",
@@ -27,7 +34,8 @@
     "playwright": "^1.60.0",
     "prettier": "^3.8.3",
     "tsx": "^4.22.3",
-    "typescript": "^6.0.3"
+    "typescript": "^6.0.3",
+    "vitest": "^4.1.7"
   },
   "dependencies": {
     "zod": "^4.4.3"
