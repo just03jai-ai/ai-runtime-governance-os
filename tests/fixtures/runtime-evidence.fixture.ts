@@ -35,6 +35,9 @@ export const mockRuntimeEvidence: RuntimeEvidence = {
       role: "button",
       label: "",
       selectorHint: "button.primary.danger",
+      attributes: {
+        class: "primary danger",
+      },
       visible: true,
       boundingBox: {
         x: 12,

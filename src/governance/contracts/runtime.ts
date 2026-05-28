@@ -30,6 +30,7 @@ export interface RuntimeComponentInventoryItem {
   readonly role: string | null;
   readonly label: string;
   readonly selectorHint: string;
+  readonly attributes?: Readonly<Record<string, string>> | undefined;
   readonly visible: boolean;
   readonly source: "dom";
 }

@@ -11,6 +11,7 @@ export interface ComponentInventoryItem {
   readonly role: string | null;
   readonly label: string;
   readonly selectorHint: string;
+  readonly attributes?: Readonly<Record<string, string>> | undefined;
   readonly visible: boolean;
   readonly boundingBox?: ComponentBoundingBox | undefined;
   readonly source: "dom";

@@ -90,6 +90,7 @@ export class RuntimeEvidenceNormalizerService {
       role: component.role,
       label: component.label,
       selectorHint: component.selectorHint,
+      ...(component.attributes ? { attributes: component.attributes } : {}),
       visible: component.visible,
       ...(sourceElement?.boundingBox ? { boundingBox: sourceElement.boundingBox } : {}),
       source: component.source,

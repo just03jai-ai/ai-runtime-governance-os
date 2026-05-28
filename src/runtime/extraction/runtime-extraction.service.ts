@@ -71,6 +71,7 @@ export class RuntimeExtractionService {
       role: element.role,
       label: this.labelFor(element),
       selectorHint: element.selectorHint,
+      attributes: Object.fromEntries(element.attributes.map((attribute) => [attribute.name, attribute.value])),
       visible: Boolean(element.boundingBox),
       source: "dom",
     }));

@@ -53,6 +53,7 @@ export const runtimeEvidenceSchema = z.object({
       role: z.string().nullable(),
       label: z.string(),
       selectorHint: z.string().min(1),
+      attributes: z.record(z.string(), z.string()).optional(),
       visible: z.boolean(),
       boundingBox: boundingBoxSchema.optional(),
       source: z.literal("dom"),
