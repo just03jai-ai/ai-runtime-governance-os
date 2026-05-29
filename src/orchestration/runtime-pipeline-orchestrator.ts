@@ -10,6 +10,7 @@ import type { FindingsReport } from "../reports/findings/findings-report.js";
 import type { FindingsReportEngine } from "../reports/findings/findings-report-engine.js";
 import { createAgentLogger, type OperationalLogger } from "../shared/logger/index.js";
 import type { RuntimeEvidence } from "../shared/types/runtime-evidence.js";
+import type { GovernanceExecutionRepository } from "../memory/storage/types.js";
 
 export type RuntimePipelineStageName = "execution" | "governance" | "verification" | "findings" | "analysis";
 
@@ -39,6 +40,7 @@ export interface RuntimePipelineRequest {
   readonly executionRequest: RuntimeExecutionRequest;
   readonly contractsDirectory?: string;
   readonly retryPolicy?: Partial<Record<RuntimePipelineStageName, RuntimePipelineRetryPolicy>>;
+  readonly storageRepository?: GovernanceExecutionRepository | undefined;
 }
 
 export interface RuntimePipelineResult {
@@ -122,6 +124,16 @@ export class RuntimePipelineOrchestrator {
         request.retryPolicy,
         () => Promise.resolve(this.agents.analyzerAgent.analyze(verifierResult.findings)),
       );
+
+      await request.storageRepository?.saveExecution({
+        correlationId: runtimeEvidence.execution.runId,
+        runtimeEvidence,
+        governanceFindings,
+        verifiedFindings: verifierResult.findings,
+        analyzerInsights: operationalInsights,
+        executionMetrics: metrics,
+        governanceScore: findingsReport.governanceScore,
+      });
 
       this.logger.complete(pipelineTrace, {
         durationMs: Date.now() - pipelineStartedAtMs,
