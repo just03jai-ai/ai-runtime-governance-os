@@ -185,18 +185,39 @@ export class OperationalDashboardHtmlRenderer {
   }
 
   private findingCard(finding: VerifiedFinding): string {
+    const componentName = this.componentDisplayName(finding);
+
     return `<article class="finding">
       <h3><span class="badge ${this.escape(finding.severity)}">${this.escape(finding.severity)}</span> ${this.escape(finding.id)}</h3>
       <div class="finding-grid">
         <div class="subtle">Status</div><div>${this.escape(finding.status)}</div>
         <div class="subtle">Route</div><div><code>${this.escape(finding.route)}</code></div>
-        <div class="subtle">Component</div><div><code>${this.escape(finding.component)}</code></div>
+        <div class="subtle">Component</div><div><strong>${this.escape(componentName)}</strong> <code>${this.escape(finding.component)}</code></div>
         <div class="subtle">Expected</div><div>${this.escape(finding.expected)}</div>
         <div class="subtle">Actual</div><div>${this.escape(finding.actual)}</div>
         <div class="subtle">Confidence</div><div>${finding.confidence}</div>
         <div class="subtle">Evidence</div><div><code>${this.escape(JSON.stringify(finding.evidence))}</code></div>
       </div>
     </article>`;
+  }
+
+  private componentDisplayName(finding: VerifiedFinding): string {
+    const componentName = finding.evidence.componentName;
+    if (typeof componentName === "string" && componentName.trim().length > 0) {
+      return componentName;
+    }
+
+    return this.standardComponentName(finding.component);
+  }
+
+  private standardComponentName(component: string): string {
+    const componentNameMap: Readonly<Record<string, string>> = {
+      Input: "TextField",
+      TextInput: "TextField",
+      Typography: "Text",
+    };
+
+    return componentNameMap[component] ?? component;
   }
 
   private screenshotGrid(screenshots: readonly RuntimeEvidenceScreenshot[]): string {

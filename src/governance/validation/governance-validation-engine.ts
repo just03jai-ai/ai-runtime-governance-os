@@ -307,9 +307,10 @@ export class GovernanceValidationEngine {
       component: componentId,
       evidence:
         typeof input.component === "string"
-          ? { runId: input.evidence.execution.runId }
+          ? { runId: input.evidence.execution.runId, componentName: this.standardComponentName(input.component) }
           : {
               componentId: input.component.id,
+              componentName: input.component.name,
               tagName: input.component.tagName,
               role: input.component.role,
               selectorHint: input.component.selectorHint,
@@ -327,5 +328,15 @@ export class GovernanceValidationEngine {
 
   private describeComponent(component: RuntimeEvidenceComponent): string {
     return `${component.tagName} role=${component.role ?? "null"} selector=${component.selectorHint}`;
+  }
+
+  private standardComponentName(component: string): string {
+    const componentNameMap: Readonly<Record<string, string>> = {
+      Input: "TextField",
+      TextInput: "TextField",
+      Typography: "Text",
+    };
+
+    return componentNameMap[component] ?? component;
   }
 }

@@ -36,6 +36,7 @@ describe("core governance policy pack", () => {
         },
         {
           id: "component-custom-widget",
+          name: "Component",
           tagName: "custom-widget",
           role: null,
           label: "Widget",

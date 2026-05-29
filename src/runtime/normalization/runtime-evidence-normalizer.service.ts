@@ -86,6 +86,7 @@ export class RuntimeEvidenceNormalizerService {
 
     return {
       id: component.id,
+      name: component.name,
       tagName: component.tagName,
       role: component.role,
       label: component.label,

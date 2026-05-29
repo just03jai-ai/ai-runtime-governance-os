@@ -149,6 +149,26 @@
         margin-top: 18px;
       }
 
+      .actions {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+        margin-top: 18px;
+      }
+
+      .button {
+        display: inline-flex;
+        align-items: center;
+        min-height: 38px;
+        padding: 8px 12px;
+        border: 1px solid var(--accent);
+        border-radius: 7px;
+        color: var(--accent);
+        text-decoration: none;
+        font-size: 13px;
+        font-weight: 700;
+      }
+
       .metric {
         padding: 14px;
         border: 1px solid var(--border);
@@ -263,6 +283,30 @@
         gap: 10px;
       }
 
+      .policy-grid {
+        display: grid;
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+        gap: 12px;
+      }
+
+      .policy-card {
+        padding: 12px;
+        border: 1px solid var(--border);
+        border-radius: 7px;
+        background: #fbfcfd;
+      }
+
+      .policy-card strong {
+        display: block;
+        font-size: 13px;
+        margin-bottom: 5px;
+      }
+
+      .policy-card span {
+        color: var(--muted);
+        font-size: 12px;
+      }
+
       .route-row {
         display: flex;
         justify-content: space-between;
@@ -274,6 +318,78 @@
         font-size: 13px;
       }
 
+      .audit-form {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) auto;
+        gap: 10px;
+        margin-top: 18px;
+      }
+
+      .audit-form input {
+        width: 100%;
+        min-height: 42px;
+        padding: 9px 11px;
+        border: 1px solid var(--border);
+        border-radius: 7px;
+        color: var(--text);
+        font: inherit;
+      }
+
+      .audit-form button {
+        min-height: 42px;
+        padding: 9px 14px;
+        border: 1px solid var(--accent);
+        border-radius: 7px;
+        background: var(--accent);
+        color: #fff;
+        font: inherit;
+        font-weight: 700;
+        cursor: pointer;
+      }
+
+      .audit-form button:disabled {
+        cursor: wait;
+        opacity: 0.65;
+      }
+
+      .audit-result {
+        display: none;
+        margin-top: 14px;
+        padding: 12px;
+        border: 1px solid var(--border);
+        border-radius: 7px;
+        background: #fbfcfd;
+        font-size: 13px;
+      }
+
+      .audit-result.visible {
+        display: block;
+      }
+
+      .result-grid {
+        display: grid;
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+        gap: 10px;
+        margin-top: 10px;
+      }
+
+      .result-grid div {
+        padding: 10px;
+        border: 1px solid var(--border);
+        border-radius: 7px;
+        background: var(--surface);
+      }
+
+      .result-grid span {
+        display: block;
+        color: var(--muted);
+        font-size: 12px;
+      }
+
+      .error-text {
+        color: var(--critical);
+      }
+
       code {
         color: #334155;
         word-break: break-word;
@@ -282,7 +398,10 @@
       @media (max-width: 920px) {
         .overview,
         .grid,
-        .metrics {
+        .metrics,
+        .audit-form,
+        .result-grid,
+        .policy-grid {
           grid-template-columns: 1fr;
         }
 
@@ -321,6 +440,21 @@
             <div class="metric"><span>Routes inspected</span><strong>3</strong></div>
             <div class="metric"><span>Evidence assets</span><strong>18</strong></div>
           </div>
+          <div class="actions">
+            <a class="button" href="/dashboard/">Open static governance dashboard</a>
+          </div>
+          <form class="audit-form" id="audit-form">
+            <input
+              id="audit-url"
+              name="url"
+              type="url"
+              placeholder="https://example.com"
+              value="https://example.com"
+              required
+            />
+            <button id="audit-submit" type="submit">Run audit</button>
+          </form>
+          <div class="audit-result" id="audit-result" aria-live="polite"></div>
         </section>
 
         <section>
@@ -410,6 +544,20 @@
       </div>
 
       <section style="margin-top: 18px">
+        <h2>Core governance policy pack</h2>
+        <div class="policy-grid">
+          <div class="policy-card"><strong>Token drift</strong><span>Required tokens must appear in runtime evidence.</span></div>
+          <div class="policy-card"><strong>Inline styles</strong><span>Inline style attributes are flagged deterministically.</span></div>
+          <div class="policy-card"><strong>Typography mismatch</strong><span>Typography token evidence is checked against contracts.</span></div>
+          <div class="policy-card"><strong>Invalid variants</strong><span>Variant selectors must satisfy required token rules.</span></div>
+          <div class="policy-card"><strong>Accessibility</strong><span>Captured a11y evidence and labels are verified.</span></div>
+          <div class="policy-card"><strong>Spacing consistency</strong><span>Visible bounds are checked against a spacing grid.</span></div>
+          <div class="policy-card"><strong>Unauthorized components</strong><span>Runtime components must match approved contracts.</span></div>
+          <div class="policy-card"><strong>Dashboard reports</strong><span>Verified findings and analyzer insights render to static HTML.</span></div>
+        </div>
+      </section>
+
+      <section style="margin-top: 18px">
         <h2>Operational insights</h2>
         <table>
           <thead>
@@ -439,5 +587,54 @@
         </table>
       </section>
     </main>
+    <script>
+      const auditForm = document.querySelector("#audit-form");
+      const auditUrl = document.querySelector("#audit-url");
+      const auditSubmit = document.querySelector("#audit-submit");
+      const auditResult = document.querySelector("#audit-result");
+
+      function showResult(html, isError = false) {
+        auditResult.classList.add("visible");
+        auditResult.innerHTML = isError ? `<strong class="error-text">${html}</strong>` : html;
+      }
+
+      auditForm.addEventListener("submit", async (event) => {
+        event.preventDefault();
+        auditSubmit.disabled = true;
+        auditSubmit.textContent = "Running...";
+        showResult("Audit running. Capturing runtime evidence, applying governance policies, and generating dashboard.");
+
+        try {
+          const response = await fetch("/api/audit", {
+            method: "POST",
+            headers: {
+              "content-type": "application/json",
+            },
+            body: JSON.stringify({ url: auditUrl.value }),
+          });
+          const result = await response.json();
+
+          if (!response.ok) {
+            throw new Error(result.error ?? "Audit failed.");
+          }
+
+          showResult(`
+            <strong>Audit complete</strong>
+            <div class="result-grid">
+              <div><span>Run ID</span><code>${result.runId}</code></div>
+              <div><span>Status</span><strong>${result.status}</strong></div>
+              <div><span>Governance score</span><strong>${result.governanceScore}</strong></div>
+              <div><span>Verified findings</span><strong>${result.verifiedFindings}</strong></div>
+            </div>
+            <p style="margin-top: 10px"><a class="button" href="${result.dashboardUrl}">Open generated dashboard</a></p>
+          `);
+        } catch (error) {
+          showResult(error.message, true);
+        } finally {
+          auditSubmit.disabled = false;
+          auditSubmit.textContent = "Run audit";
+        }
+      });
+    </script>
   </body>
 </html>

@@ -67,6 +67,7 @@ export class RuntimeExtractionService {
   buildComponentInventory(domSnapshot: RuntimeDomSnapshot): RuntimeComponentInventory {
     const components: RuntimeComponentInventoryItem[] = domSnapshot.elements.map((element, index) => ({
       id: `component-${index + 1}`,
+      name: this.componentNameFor(element),
       tagName: element.tagName,
       role: element.role,
       label: this.labelFor(element),
@@ -88,5 +89,83 @@ export class RuntimeExtractionService {
     const testId = element.attributes.find((attribute) => attribute.name === "data-testid")?.value;
 
     return ariaLabel ?? element.text ?? name ?? testId ?? element.selectorHint;
+  }
+
+  private componentNameFor(element: DomElementSnapshot): string {
+    const dataComponent = element.attributes.find((attribute) => attribute.name === "data-component")?.value;
+
+    if (dataComponent) {
+      return this.toPascalCase(dataComponent);
+    }
+
+    const roleName = element.role ? this.roleComponentName(element.role) : undefined;
+
+    if (roleName) {
+      return roleName;
+    }
+
+    if (element.tagName === "input") {
+      const inputType = element.attributes.find((attribute) => attribute.name === "type")?.value ?? "text";
+      return this.inputComponentName(inputType);
+    }
+
+    const tagNameMap: Readonly<Record<string, string>> = {
+      a: "Link",
+      button: "Button",
+      select: "Select",
+      textarea: "TextArea",
+    };
+
+    return tagNameMap[element.tagName] ?? "Component";
+  }
+
+  private roleComponentName(role: string): string | undefined {
+    const roleNameMap: Readonly<Record<string, string>> = {
+      alert: "Alert",
+      button: "Button",
+      checkbox: "Checkbox",
+      combobox: "Combobox",
+      dialog: "Dialog",
+      link: "Link",
+      menu: "Menu",
+      menuitem: "MenuItem",
+      navigation: "Navigation",
+      radio: "RadioButton",
+      searchbox: "SearchBox",
+      switch: "Switch",
+      tab: "Tab",
+      tablist: "Tabs",
+      textbox: "TextField",
+    };
+
+    return roleNameMap[role];
+  }
+
+  private inputComponentName(inputType: string): string {
+    const inputNameMap: Readonly<Record<string, string>> = {
+      checkbox: "Checkbox",
+      email: "TextField",
+      number: "NumberField",
+      password: "PasswordField",
+      radio: "RadioButton",
+      range: "Slider",
+      search: "SearchField",
+      tel: "TextField",
+      text: "TextField",
+      url: "TextField",
+    };
+
+    return inputNameMap[inputType] ?? "TextField";
+  }
+
+  private toPascalCase(value: string): string {
+    const normalized = value
+      .replace(/([a-z])([A-Z])/g, "$1 $2")
+      .split(/[^a-zA-Z0-9]+/)
+      .filter(Boolean)
+      .map((part) => part.charAt(0).toUpperCase() + part.slice(1))
+      .join("");
+
+    return normalized || "Component";
   }
 }

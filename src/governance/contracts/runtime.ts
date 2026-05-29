@@ -26,6 +26,7 @@ export interface RuntimeDomSnapshot {
 
 export interface RuntimeComponentInventoryItem {
   readonly id: string;
+  readonly name: string;
   readonly tagName: string;
   readonly role: string | null;
   readonly label: string;

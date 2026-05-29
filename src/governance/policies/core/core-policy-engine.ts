@@ -287,6 +287,7 @@ export class CorePolicyEngine {
   private componentEvidence(component: RuntimeEvidenceComponent): GovernanceValidationFinding["evidence"] {
     return {
       componentId: component.id,
+      componentName: component.name,
       tagName: component.tagName,
       role: component.role,
       selectorHint: component.selectorHint,
@@ -304,6 +305,10 @@ export class CorePolicyEngine {
     readonly evidencePayload: GovernanceValidationFinding["evidence"];
   }): GovernanceValidationFinding {
     const componentId = typeof input.component === "string" ? input.component : input.component.id;
+    const evidencePayload =
+      typeof input.component === "string"
+        ? { ...input.evidencePayload, componentName: this.standardComponentName(input.component) }
+        : input.evidencePayload;
 
     return {
       id: `${input.evidence.execution.runId}:core.${input.policy}:${componentId}`.replace(/[^a-zA-Z0-9_.:-]/g, "-"),
@@ -311,10 +316,20 @@ export class CorePolicyEngine {
       severity: input.severity,
       route: input.evidence.route.resolvedUrl,
       component: componentId,
-      evidence: input.evidencePayload,
+      evidence: evidencePayload,
       expected: input.expected,
       actual: input.actual,
       confidence: 1,
     };
+  }
+
+  private standardComponentName(component: string): string {
+    const componentNameMap: Readonly<Record<string, string>> = {
+      Input: "TextField",
+      TextInput: "TextField",
+      Typography: "Text",
+    };
+
+    return componentNameMap[component] ?? component;
   }
 }

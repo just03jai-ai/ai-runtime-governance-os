@@ -9,7 +9,7 @@
     "cli": "tsx src/cli/cli.ts",
     "audit": "tsx src/cli/cli.ts audit",
     "execute:example": "tsx src/orchestration/example-execution-flow.ts",
-    "prototype": "python3 -m http.server 3000 -d prototype",
+    "prototype": "tsx src/server/prototype-server.ts",
     "report": "tsx src/cli/cli.ts report",
     "test:unit": "vitest run",
     "validate": "tsx src/cli/cli.ts validate",

@@ -49,6 +49,7 @@ export const runtimeEvidenceSchema = z.object({
   componentInventory: z.array(
     z.object({
       id: z.string().min(1),
+      name: z.string().min(1),
       tagName: z.string().min(1),
       role: z.string().nullable(),
       label: z.string(),

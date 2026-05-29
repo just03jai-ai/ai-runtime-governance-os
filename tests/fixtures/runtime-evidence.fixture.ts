@@ -31,6 +31,7 @@ export const mockRuntimeEvidence: RuntimeEvidence = {
   componentInventory: [
     {
       id: "component-button-primary",
+      name: "Button",
       tagName: "button",
       role: "button",
       label: "",

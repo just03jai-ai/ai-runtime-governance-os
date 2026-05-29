@@ -99,7 +99,7 @@ export class FindingsHtmlReporter {
               (finding) =>
                 `<tr><td>${this.escape(finding.id)}</td><td>${this.escape(finding.severity)}</td><td>${this.escape(
                   finding.status,
-                )}</td><td>${this.escape(finding.component)}</td><td>${this.escape(finding.expected)}</td><td>${this.escape(
+                )}</td><td>${this.escape(this.componentDisplayName(finding))}<br><code>${this.escape(finding.component)}</code></td><td>${this.escape(finding.expected)}</td><td>${this.escape(
                   finding.actual,
                 )}</td><td>${finding.confidence}</td></tr>`,
             )
@@ -107,6 +107,25 @@ export class FindingsHtmlReporter {
         </tbody>
       </table>
     </section>`;
+  }
+
+  private componentDisplayName(finding: VerifiedFinding): string {
+    const componentName = finding.evidence.componentName;
+    if (typeof componentName === "string" && componentName.trim().length > 0) {
+      return componentName;
+    }
+
+    return this.standardComponentName(finding.component);
+  }
+
+  private standardComponentName(component: string): string {
+    const componentNameMap: Readonly<Record<string, string>> = {
+      Input: "TextField",
+      TextInput: "TextField",
+      Typography: "Text",
+    };
+
+    return componentNameMap[component] ?? component;
   }
 
   private escape(value: string): string {
