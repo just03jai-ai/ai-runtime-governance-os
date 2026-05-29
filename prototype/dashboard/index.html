@@ -63,14 +63,14 @@
   <main>
     <header>
       <h1>AI Runtime Governance OS Dashboard</h1>
-      <p class="subtle">Generated 2026-05-28T11:53:26.446Z from verified runtime governance evidence.</p>
+      <p class="subtle">Generated 2026-05-29T11:38:36.744Z from verified runtime governance evidence.</p>
     </header>
 
     <section class="grid metrics">
-      <div class="metric score"><span>Governance Score</span><strong>22</strong></div>
+      <div class="metric score"><span>Governance Score</span><strong>0</strong></div>
       <div class="metric"><span>Critical Findings</span><strong class="critical">0</strong></div>
-      <div class="metric"><span>Warning Findings</span><strong class="warning">14</strong></div>
-      <div class="metric"><span>Total Active Findings</span><strong>14</strong></div>
+      <div class="metric"><span>Warning Findings</span><strong class="warning">16</strong></div>
+      <div class="metric"><span>Total Active Findings</span><strong>17</strong></div>
     </section>
 
     <div class="grid two" style="margin-top: 16px;">
@@ -78,14 +78,14 @@
         <h2>Route Summaries</h2>
         <table>
       <thead><tr><th>Route</th><th>Total</th><th>Critical</th><th>Warning</th><th>Info</th></tr></thead>
-      <tbody><tr><td><code>https://example.comhttps//github.com/just03jai-ai/ai-runtime-governance-os/settings</code></td><td>14</td><td class="critical">0</td><td class="warning">14</td><td class="info">0</td></tr></tbody>
+      <tbody><tr><td><code>https://example.com/</code></td><td>17</td><td class="critical">0</td><td class="warning">16</td><td class="info">1</td></tr></tbody>
     </table>
       </section>
       <section>
         <h2>Execution Metrics</h2>
         <table>
       <thead><tr><th>Stage</th><th>Status</th><th>Duration</th><th>Attempts</th></tr></thead>
-      <tbody><tr><td>execution</td><td>passed</td><td>219ms</td><td>1</td></tr><tr><td>governance</td><td>passed</td><td>2ms</td><td>1</td></tr><tr><td>verification</td><td>passed</td><td>0ms</td><td>1</td></tr><tr><td>findings</td><td>passed</td><td>0ms</td><td>1</td></tr><tr><td>analysis</td><td>passed</td><td>0ms</td><td>1</td></tr></tbody>
+      <tbody><tr><td>execution</td><td>passed</td><td>768ms</td><td>1</td></tr><tr><td>governance</td><td>passed</td><td>2ms</td><td>1</td></tr><tr><td>verification</td><td>passed</td><td>0ms</td><td>1</td></tr><tr><td>findings</td><td>passed</td><td>0ms</td><td>1</td></tr><tr><td>analysis</td><td>passed</td><td>0ms</td><td>1</td></tr></tbody>
     </table>
       </section>
     </div>
@@ -98,180 +98,220 @@
     <section style="margin-top: 16px;">
       <h2>Warning Findings</h2>
       <article class="finding">
-      <h3><span class="badge warning">warning</span> verified:runtime_2026-05-28T11-53-26-225Z_2952e353-76a4-4283-8ca0-c62f576d0e27:design-system.button.token.color.action.primary.background:Button</h3>
+      <h3><span class="badge warning">warning</span> verified:runtime_2026-05-29T11-38-35-974Z_bc4fed17-f08a-4955-82fc-e82b8c917ad2:design-system.allowed-component:component-1</h3>
       <div class="finding-grid">
-        <div class="subtle">Status</div><div>needs-review</div>
-        <div class="subtle">Route</div><div><code>https://example.comhttps//github.com/just03jai-ai/ai-runtime-governance-os/settings</code></div>
+        <div class="subtle">Status</div><div>verified</div>
+        <div class="subtle">Route</div><div><code>https://example.com/</code></div>
+        <div class="subtle">Component</div><div><strong>Link</strong> <code>component-1</code></div>
+        <div class="subtle">Expected</div><div>Runtime component must match an approved design-system component contract.</div>
+        <div class="subtle">Actual</div><div>a role=null selector=a</div>
+        <div class="subtle">Confidence</div><div>1</div>
+        <div class="subtle">Evidence</div><div><code>{&quot;componentId&quot;:&quot;component-1&quot;,&quot;componentName&quot;:&quot;Link&quot;,&quot;tagName&quot;:&quot;a&quot;,&quot;role&quot;:null,&quot;selectorHint&quot;:&quot;a&quot;,&quot;visible&quot;:true}</code></div>
+      </div>
+    </article><article class="finding">
+      <h3><span class="badge warning">warning</span> verified:runtime_2026-05-29T11-38-35-974Z_bc4fed17-f08a-4955-82fc-e82b8c917ad2:design-system.button.token.color.action.primary.background:Button</h3>
+      <div class="finding-grid">
+        <div class="subtle">Status</div><div>verified</div>
+        <div class="subtle">Route</div><div><code>https://example.com/</code></div>
         <div class="subtle">Component</div><div><strong>Button</strong> <code>Button</code></div>
         <div class="subtle">Expected</div><div>color.action.primary.background (color)</div>
         <div class="subtle">Actual</div><div>missing</div>
-        <div class="subtle">Confidence</div><div>0.7</div>
-        <div class="subtle">Evidence</div><div><code>{&quot;runId&quot;:&quot;runtime_2026-05-28T11-53-26-225Z_2952e353-76a4-4283-8ca0-c62f576d0e27&quot;,&quot;componentName&quot;:&quot;Button&quot;}</code></div>
+        <div class="subtle">Confidence</div><div>0.8</div>
+        <div class="subtle">Evidence</div><div><code>{&quot;runId&quot;:&quot;runtime_2026-05-29T11-38-35-974Z_bc4fed17-f08a-4955-82fc-e82b8c917ad2&quot;,&quot;componentName&quot;:&quot;Button&quot;}</code></div>
       </div>
     </article><article class="finding">
-      <h3><span class="badge warning">warning</span> verified:runtime_2026-05-28T11-53-26-225Z_2952e353-76a4-4283-8ca0-c62f576d0e27:design-system.button.token.radius.control.default:Button</h3>
+      <h3><span class="badge warning">warning</span> verified:runtime_2026-05-29T11-38-35-974Z_bc4fed17-f08a-4955-82fc-e82b8c917ad2:design-system.button.token.radius.control.default:Button</h3>
       <div class="finding-grid">
-        <div class="subtle">Status</div><div>needs-review</div>
-        <div class="subtle">Route</div><div><code>https://example.comhttps//github.com/just03jai-ai/ai-runtime-governance-os/settings</code></div>
+        <div class="subtle">Status</div><div>verified</div>
+        <div class="subtle">Route</div><div><code>https://example.com/</code></div>
         <div class="subtle">Component</div><div><strong>Button</strong> <code>Button</code></div>
         <div class="subtle">Expected</div><div>radius.control.default (radius)</div>
         <div class="subtle">Actual</div><div>missing</div>
-        <div class="subtle">Confidence</div><div>0.7</div>
-        <div class="subtle">Evidence</div><div><code>{&quot;runId&quot;:&quot;runtime_2026-05-28T11-53-26-225Z_2952e353-76a4-4283-8ca0-c62f576d0e27&quot;,&quot;componentName&quot;:&quot;Button&quot;}</code></div>
+        <div class="subtle">Confidence</div><div>0.8</div>
+        <div class="subtle">Evidence</div><div><code>{&quot;runId&quot;:&quot;runtime_2026-05-29T11-38-35-974Z_bc4fed17-f08a-4955-82fc-e82b8c917ad2&quot;,&quot;componentName&quot;:&quot;Button&quot;}</code></div>
       </div>
     </article><article class="finding">
-      <h3><span class="badge warning">warning</span> verified:runtime_2026-05-28T11-53-26-225Z_2952e353-76a4-4283-8ca0-c62f576d0e27:design-system.input.token.color.input.border:Input</h3>
+      <h3><span class="badge warning">warning</span> verified:runtime_2026-05-29T11-38-35-974Z_bc4fed17-f08a-4955-82fc-e82b8c917ad2:design-system.input.token.color.input.border:Input</h3>
       <div class="finding-grid">
-        <div class="subtle">Status</div><div>needs-review</div>
-        <div class="subtle">Route</div><div><code>https://example.comhttps//github.com/just03jai-ai/ai-runtime-governance-os/settings</code></div>
+        <div class="subtle">Status</div><div>verified</div>
+        <div class="subtle">Route</div><div><code>https://example.com/</code></div>
         <div class="subtle">Component</div><div><strong>TextField</strong> <code>Input</code></div>
         <div class="subtle">Expected</div><div>color.input.border (color)</div>
         <div class="subtle">Actual</div><div>missing</div>
-        <div class="subtle">Confidence</div><div>0.7</div>
-        <div class="subtle">Evidence</div><div><code>{&quot;runId&quot;:&quot;runtime_2026-05-28T11-53-26-225Z_2952e353-76a4-4283-8ca0-c62f576d0e27&quot;,&quot;componentName&quot;:&quot;TextField&quot;}</code></div>
+        <div class="subtle">Confidence</div><div>0.8</div>
+        <div class="subtle">Evidence</div><div><code>{&quot;runId&quot;:&quot;runtime_2026-05-29T11-38-35-974Z_bc4fed17-f08a-4955-82fc-e82b8c917ad2&quot;,&quot;componentName&quot;:&quot;TextField&quot;}</code></div>
       </div>
     </article><article class="finding">
-      <h3><span class="badge warning">warning</span> verified:runtime_2026-05-28T11-53-26-225Z_2952e353-76a4-4283-8ca0-c62f576d0e27:design-system.input.token.spacing.input.paddingX:Input</h3>
+      <h3><span class="badge warning">warning</span> verified:runtime_2026-05-29T11-38-35-974Z_bc4fed17-f08a-4955-82fc-e82b8c917ad2:design-system.input.token.spacing.input.paddingX:Input</h3>
       <div class="finding-grid">
-        <div class="subtle">Status</div><div>needs-review</div>
-        <div class="subtle">Route</div><div><code>https://example.comhttps//github.com/just03jai-ai/ai-runtime-governance-os/settings</code></div>
+        <div class="subtle">Status</div><div>verified</div>
+        <div class="subtle">Route</div><div><code>https://example.com/</code></div>
         <div class="subtle">Component</div><div><strong>TextField</strong> <code>Input</code></div>
         <div class="subtle">Expected</div><div>spacing.input.paddingX (spacing)</div>
         <div class="subtle">Actual</div><div>missing</div>
-        <div class="subtle">Confidence</div><div>0.7</div>
-        <div class="subtle">Evidence</div><div><code>{&quot;runId&quot;:&quot;runtime_2026-05-28T11-53-26-225Z_2952e353-76a4-4283-8ca0-c62f576d0e27&quot;,&quot;componentName&quot;:&quot;TextField&quot;}</code></div>
+        <div class="subtle">Confidence</div><div>0.8</div>
+        <div class="subtle">Evidence</div><div><code>{&quot;runId&quot;:&quot;runtime_2026-05-29T11-38-35-974Z_bc4fed17-f08a-4955-82fc-e82b8c917ad2&quot;,&quot;componentName&quot;:&quot;TextField&quot;}</code></div>
       </div>
     </article><article class="finding">
-      <h3><span class="badge warning">warning</span> verified:runtime_2026-05-28T11-53-26-225Z_2952e353-76a4-4283-8ca0-c62f576d0e27:design-system.typography.token.typography.body.fontFamily:Typography</h3>
+      <h3><span class="badge warning">warning</span> verified:runtime_2026-05-29T11-38-35-974Z_bc4fed17-f08a-4955-82fc-e82b8c917ad2:design-system.typography.token.typography.body.fontFamily:Typography</h3>
       <div class="finding-grid">
-        <div class="subtle">Status</div><div>needs-review</div>
-        <div class="subtle">Route</div><div><code>https://example.comhttps//github.com/just03jai-ai/ai-runtime-governance-os/settings</code></div>
+        <div class="subtle">Status</div><div>verified</div>
+        <div class="subtle">Route</div><div><code>https://example.com/</code></div>
         <div class="subtle">Component</div><div><strong>Text</strong> <code>Typography</code></div>
         <div class="subtle">Expected</div><div>typography.body.fontFamily (typography)</div>
         <div class="subtle">Actual</div><div>missing</div>
-        <div class="subtle">Confidence</div><div>0.7</div>
-        <div class="subtle">Evidence</div><div><code>{&quot;runId&quot;:&quot;runtime_2026-05-28T11-53-26-225Z_2952e353-76a4-4283-8ca0-c62f576d0e27&quot;,&quot;componentName&quot;:&quot;Text&quot;}</code></div>
+        <div class="subtle">Confidence</div><div>0.8</div>
+        <div class="subtle">Evidence</div><div><code>{&quot;runId&quot;:&quot;runtime_2026-05-29T11-38-35-974Z_bc4fed17-f08a-4955-82fc-e82b8c917ad2&quot;,&quot;componentName&quot;:&quot;Text&quot;}</code></div>
       </div>
     </article><article class="finding">
-      <h3><span class="badge warning">warning</span> verified:runtime_2026-05-28T11-53-26-225Z_2952e353-76a4-4283-8ca0-c62f576d0e27:design-system.typography.token.typography.body.fontSize:Typography</h3>
+      <h3><span class="badge warning">warning</span> verified:runtime_2026-05-29T11-38-35-974Z_bc4fed17-f08a-4955-82fc-e82b8c917ad2:design-system.typography.token.typography.body.fontSize:Typography</h3>
       <div class="finding-grid">
-        <div class="subtle">Status</div><div>needs-review</div>
-        <div class="subtle">Route</div><div><code>https://example.comhttps//github.com/just03jai-ai/ai-runtime-governance-os/settings</code></div>
+        <div class="subtle">Status</div><div>verified</div>
+        <div class="subtle">Route</div><div><code>https://example.com/</code></div>
         <div class="subtle">Component</div><div><strong>Text</strong> <code>Typography</code></div>
         <div class="subtle">Expected</div><div>typography.body.fontSize (typography)</div>
         <div class="subtle">Actual</div><div>missing</div>
-        <div class="subtle">Confidence</div><div>0.7</div>
-        <div class="subtle">Evidence</div><div><code>{&quot;runId&quot;:&quot;runtime_2026-05-28T11-53-26-225Z_2952e353-76a4-4283-8ca0-c62f576d0e27&quot;,&quot;componentName&quot;:&quot;Text&quot;}</code></div>
+        <div class="subtle">Confidence</div><div>0.8</div>
+        <div class="subtle">Evidence</div><div><code>{&quot;runId&quot;:&quot;runtime_2026-05-29T11-38-35-974Z_bc4fed17-f08a-4955-82fc-e82b8c917ad2&quot;,&quot;componentName&quot;:&quot;Text&quot;}</code></div>
       </div>
     </article><article class="finding">
-      <h3><span class="badge warning">warning</span> verified:runtime_2026-05-28T11-53-26-225Z_2952e353-76a4-4283-8ca0-c62f576d0e27:core.token-drift:Button</h3>
+      <h3><span class="badge warning">warning</span> verified:runtime_2026-05-29T11-38-35-974Z_bc4fed17-f08a-4955-82fc-e82b8c917ad2:core.token-drift:Button</h3>
       <div class="finding-grid">
-        <div class="subtle">Status</div><div>needs-review</div>
-        <div class="subtle">Route</div><div><code>https://example.comhttps//github.com/just03jai-ai/ai-runtime-governance-os/settings</code></div>
+        <div class="subtle">Status</div><div>verified</div>
+        <div class="subtle">Route</div><div><code>https://example.com/</code></div>
         <div class="subtle">Component</div><div><strong>Button</strong> <code>Button</code></div>
         <div class="subtle">Expected</div><div>color.action.primary.background (color)</div>
         <div class="subtle">Actual</div><div>missing from runtime token evidence</div>
-        <div class="subtle">Confidence</div><div>0.7</div>
+        <div class="subtle">Confidence</div><div>0.8</div>
         <div class="subtle">Evidence</div><div><code>{&quot;contractId&quot;:&quot;design-system.button&quot;,&quot;tokenName&quot;:&quot;color.action.primary.background&quot;,&quot;tokenCategory&quot;:&quot;color&quot;,&quot;componentName&quot;:&quot;Button&quot;}</code></div>
       </div>
     </article><article class="finding">
-      <h3><span class="badge warning">warning</span> verified:runtime_2026-05-28T11-53-26-225Z_2952e353-76a4-4283-8ca0-c62f576d0e27:core.token-drift:Button</h3>
+      <h3><span class="badge warning">warning</span> verified:runtime_2026-05-29T11-38-35-974Z_bc4fed17-f08a-4955-82fc-e82b8c917ad2:core.token-drift:Button</h3>
       <div class="finding-grid">
-        <div class="subtle">Status</div><div>needs-review</div>
-        <div class="subtle">Route</div><div><code>https://example.comhttps//github.com/just03jai-ai/ai-runtime-governance-os/settings</code></div>
+        <div class="subtle">Status</div><div>verified</div>
+        <div class="subtle">Route</div><div><code>https://example.com/</code></div>
         <div class="subtle">Component</div><div><strong>Button</strong> <code>Button</code></div>
         <div class="subtle">Expected</div><div>radius.control.default (radius)</div>
         <div class="subtle">Actual</div><div>missing from runtime token evidence</div>
-        <div class="subtle">Confidence</div><div>0.7</div>
+        <div class="subtle">Confidence</div><div>0.8</div>
         <div class="subtle">Evidence</div><div><code>{&quot;contractId&quot;:&quot;design-system.button&quot;,&quot;tokenName&quot;:&quot;radius.control.default&quot;,&quot;tokenCategory&quot;:&quot;radius&quot;,&quot;componentName&quot;:&quot;Button&quot;}</code></div>
       </div>
     </article><article class="finding">
-      <h3><span class="badge warning">warning</span> verified:runtime_2026-05-28T11-53-26-225Z_2952e353-76a4-4283-8ca0-c62f576d0e27:core.token-drift:Input</h3>
+      <h3><span class="badge warning">warning</span> verified:runtime_2026-05-29T11-38-35-974Z_bc4fed17-f08a-4955-82fc-e82b8c917ad2:core.token-drift:Input</h3>
       <div class="finding-grid">
-        <div class="subtle">Status</div><div>needs-review</div>
-        <div class="subtle">Route</div><div><code>https://example.comhttps//github.com/just03jai-ai/ai-runtime-governance-os/settings</code></div>
+        <div class="subtle">Status</div><div>verified</div>
+        <div class="subtle">Route</div><div><code>https://example.com/</code></div>
         <div class="subtle">Component</div><div><strong>TextField</strong> <code>Input</code></div>
         <div class="subtle">Expected</div><div>color.input.border (color)</div>
         <div class="subtle">Actual</div><div>missing from runtime token evidence</div>
-        <div class="subtle">Confidence</div><div>0.7</div>
+        <div class="subtle">Confidence</div><div>0.8</div>
         <div class="subtle">Evidence</div><div><code>{&quot;contractId&quot;:&quot;design-system.input&quot;,&quot;tokenName&quot;:&quot;color.input.border&quot;,&quot;tokenCategory&quot;:&quot;color&quot;,&quot;componentName&quot;:&quot;TextField&quot;}</code></div>
       </div>
     </article><article class="finding">
-      <h3><span class="badge warning">warning</span> verified:runtime_2026-05-28T11-53-26-225Z_2952e353-76a4-4283-8ca0-c62f576d0e27:core.token-drift:Input</h3>
+      <h3><span class="badge warning">warning</span> verified:runtime_2026-05-29T11-38-35-974Z_bc4fed17-f08a-4955-82fc-e82b8c917ad2:core.token-drift:Input</h3>
       <div class="finding-grid">
-        <div class="subtle">Status</div><div>needs-review</div>
-        <div class="subtle">Route</div><div><code>https://example.comhttps//github.com/just03jai-ai/ai-runtime-governance-os/settings</code></div>
+        <div class="subtle">Status</div><div>verified</div>
+        <div class="subtle">Route</div><div><code>https://example.com/</code></div>
         <div class="subtle">Component</div><div><strong>TextField</strong> <code>Input</code></div>
         <div class="subtle">Expected</div><div>spacing.input.paddingX (spacing)</div>
         <div class="subtle">Actual</div><div>missing from runtime token evidence</div>
-        <div class="subtle">Confidence</div><div>0.7</div>
+        <div class="subtle">Confidence</div><div>0.8</div>
         <div class="subtle">Evidence</div><div><code>{&quot;contractId&quot;:&quot;design-system.input&quot;,&quot;tokenName&quot;:&quot;spacing.input.paddingX&quot;,&quot;tokenCategory&quot;:&quot;spacing&quot;,&quot;componentName&quot;:&quot;TextField&quot;}</code></div>
       </div>
     </article><article class="finding">
-      <h3><span class="badge warning">warning</span> verified:runtime_2026-05-28T11-53-26-225Z_2952e353-76a4-4283-8ca0-c62f576d0e27:core.token-drift:Typography</h3>
+      <h3><span class="badge warning">warning</span> verified:runtime_2026-05-29T11-38-35-974Z_bc4fed17-f08a-4955-82fc-e82b8c917ad2:core.token-drift:Typography</h3>
       <div class="finding-grid">
-        <div class="subtle">Status</div><div>needs-review</div>
-        <div class="subtle">Route</div><div><code>https://example.comhttps//github.com/just03jai-ai/ai-runtime-governance-os/settings</code></div>
+        <div class="subtle">Status</div><div>verified</div>
+        <div class="subtle">Route</div><div><code>https://example.com/</code></div>
         <div class="subtle">Component</div><div><strong>Text</strong> <code>Typography</code></div>
         <div class="subtle">Expected</div><div>typography.body.fontFamily (typography)</div>
         <div class="subtle">Actual</div><div>missing from runtime token evidence</div>
-        <div class="subtle">Confidence</div><div>0.7</div>
+        <div class="subtle">Confidence</div><div>0.8</div>
         <div class="subtle">Evidence</div><div><code>{&quot;contractId&quot;:&quot;design-system.typography&quot;,&quot;tokenName&quot;:&quot;typography.body.fontFamily&quot;,&quot;tokenCategory&quot;:&quot;typography&quot;,&quot;componentName&quot;:&quot;Text&quot;}</code></div>
       </div>
     </article><article class="finding">
-      <h3><span class="badge warning">warning</span> verified:runtime_2026-05-28T11-53-26-225Z_2952e353-76a4-4283-8ca0-c62f576d0e27:core.token-drift:Typography</h3>
+      <h3><span class="badge warning">warning</span> verified:runtime_2026-05-29T11-38-35-974Z_bc4fed17-f08a-4955-82fc-e82b8c917ad2:core.token-drift:Typography</h3>
       <div class="finding-grid">
-        <div class="subtle">Status</div><div>needs-review</div>
-        <div class="subtle">Route</div><div><code>https://example.comhttps//github.com/just03jai-ai/ai-runtime-governance-os/settings</code></div>
+        <div class="subtle">Status</div><div>verified</div>
+        <div class="subtle">Route</div><div><code>https://example.com/</code></div>
         <div class="subtle">Component</div><div><strong>Text</strong> <code>Typography</code></div>
         <div class="subtle">Expected</div><div>typography.body.fontSize (typography)</div>
         <div class="subtle">Actual</div><div>missing from runtime token evidence</div>
-        <div class="subtle">Confidence</div><div>0.7</div>
+        <div class="subtle">Confidence</div><div>0.8</div>
         <div class="subtle">Evidence</div><div><code>{&quot;contractId&quot;:&quot;design-system.typography&quot;,&quot;tokenName&quot;:&quot;typography.body.fontSize&quot;,&quot;tokenCategory&quot;:&quot;typography&quot;,&quot;componentName&quot;:&quot;Text&quot;}</code></div>
       </div>
     </article><article class="finding">
-      <h3><span class="badge warning">warning</span> verified:runtime_2026-05-28T11-53-26-225Z_2952e353-76a4-4283-8ca0-c62f576d0e27:core.typography-mismatch:Typography</h3>
+      <h3><span class="badge warning">warning</span> verified:runtime_2026-05-29T11-38-35-974Z_bc4fed17-f08a-4955-82fc-e82b8c917ad2:core.typography-mismatch:Typography</h3>
       <div class="finding-grid">
-        <div class="subtle">Status</div><div>needs-review</div>
-        <div class="subtle">Route</div><div><code>https://example.comhttps//github.com/just03jai-ai/ai-runtime-governance-os/settings</code></div>
+        <div class="subtle">Status</div><div>verified</div>
+        <div class="subtle">Route</div><div><code>https://example.com/</code></div>
         <div class="subtle">Component</div><div><strong>Text</strong> <code>Typography</code></div>
         <div class="subtle">Expected</div><div>typography token typography.body.fontFamily</div>
         <div class="subtle">Actual</div><div>missing from runtime typography evidence</div>
-        <div class="subtle">Confidence</div><div>0.7</div>
+        <div class="subtle">Confidence</div><div>0.8</div>
         <div class="subtle">Evidence</div><div><code>{&quot;contractId&quot;:&quot;design-system.typography&quot;,&quot;tokenName&quot;:&quot;typography.body.fontFamily&quot;,&quot;tokenCategory&quot;:&quot;typography&quot;,&quot;componentName&quot;:&quot;Text&quot;}</code></div>
       </div>
     </article><article class="finding">
-      <h3><span class="badge warning">warning</span> verified:runtime_2026-05-28T11-53-26-225Z_2952e353-76a4-4283-8ca0-c62f576d0e27:core.typography-mismatch:Typography</h3>
+      <h3><span class="badge warning">warning</span> verified:runtime_2026-05-29T11-38-35-974Z_bc4fed17-f08a-4955-82fc-e82b8c917ad2:core.typography-mismatch:Typography</h3>
       <div class="finding-grid">
-        <div class="subtle">Status</div><div>needs-review</div>
-        <div class="subtle">Route</div><div><code>https://example.comhttps//github.com/just03jai-ai/ai-runtime-governance-os/settings</code></div>
+        <div class="subtle">Status</div><div>verified</div>
+        <div class="subtle">Route</div><div><code>https://example.com/</code></div>
         <div class="subtle">Component</div><div><strong>Text</strong> <code>Typography</code></div>
         <div class="subtle">Expected</div><div>typography token typography.body.fontSize</div>
         <div class="subtle">Actual</div><div>missing from runtime typography evidence</div>
-        <div class="subtle">Confidence</div><div>0.7</div>
+        <div class="subtle">Confidence</div><div>0.8</div>
         <div class="subtle">Evidence</div><div><code>{&quot;contractId&quot;:&quot;design-system.typography&quot;,&quot;tokenName&quot;:&quot;typography.body.fontSize&quot;,&quot;tokenCategory&quot;:&quot;typography&quot;,&quot;componentName&quot;:&quot;Text&quot;}</code></div>
+      </div>
+    </article><article class="finding">
+      <h3><span class="badge warning">warning</span> verified:runtime_2026-05-29T11-38-35-974Z_bc4fed17-f08a-4955-82fc-e82b8c917ad2:core.unauthorized-component:component-1</h3>
+      <div class="finding-grid">
+        <div class="subtle">Status</div><div>verified</div>
+        <div class="subtle">Route</div><div><code>https://example.com/</code></div>
+        <div class="subtle">Component</div><div><strong>Link</strong> <code>component-1</code></div>
+        <div class="subtle">Expected</div><div>component matches an approved governance contract</div>
+        <div class="subtle">Actual</div><div>a role=null selector=a</div>
+        <div class="subtle">Confidence</div><div>1</div>
+        <div class="subtle">Evidence</div><div><code>{&quot;componentId&quot;:&quot;component-1&quot;,&quot;componentName&quot;:&quot;Link&quot;,&quot;tagName&quot;:&quot;a&quot;,&quot;role&quot;:null,&quot;selectorHint&quot;:&quot;a&quot;,&quot;visible&quot;:true}</code></div>
       </div>
     </article>
     </section>
 
     <section style="margin-top: 16px;">
       <h2>Minor Findings</h2>
-      <div class="empty">No findings in this severity group.</div>
+      <article class="finding">
+      <h3><span class="badge info">info</span> verified:runtime_2026-05-29T11-38-35-974Z_bc4fed17-f08a-4955-82fc-e82b8c917ad2:core.spacing-inconsistency:component-1</h3>
+      <div class="finding-grid">
+        <div class="subtle">Status</div><div>verified</div>
+        <div class="subtle">Route</div><div><code>https://example.com/</code></div>
+        <div class="subtle">Component</div><div><strong>Link</strong> <code>component-1</code></div>
+        <div class="subtle">Expected</div><div>component bounds align to 4px spacing grid</div>
+        <div class="subtle">Actual</div><div>x=273.203125, y=193.265625, width=82, height=18</div>
+        <div class="subtle">Confidence</div><div>1</div>
+        <div class="subtle">Evidence</div><div><code>{&quot;componentId&quot;:&quot;component-1&quot;,&quot;componentName&quot;:&quot;Link&quot;,&quot;tagName&quot;:&quot;a&quot;,&quot;role&quot;:null,&quot;selectorHint&quot;:&quot;a&quot;,&quot;visible&quot;:true}</code></div>
+      </div>
+    </article>
     </section>
 
     <section style="margin-top: 16px;">
       <h2>Screenshot Evidence</h2>
-      <div class="empty">No screenshots supplied.</div>
+      <div class="screenshots"><article class="screenshot">
+      <img src="/artifacts/evidence/runtime_2026-05-29T11-38-35-974Z_bc4fed17-f08a-4955-82fc-e82b8c917ad2/screenshots/full-page.png" alt="full-page screenshot evidence">
+      <div>
+        <strong>full-page</strong>
+        <p class="subtle">1366x768 - 2026-05-29T11:38:36.718Z</p>
+        <p><code>/artifacts/evidence/runtime_2026-05-29T11-38-35-974Z_bc4fed17-f08a-4955-82fc-e82b8c917ad2/screenshots/full-page.png</code></p>
+      </div>
+    </article></div>
     </section>
 
     <div class="grid two" style="margin-top: 16px;">
       <section>
         <h2>Recurring Patterns</h2>
-        <div class="list"><div class="list-item"><strong>token-drift</strong><p>Design token drift detected around typography.body.fontFamily.</p><p class="subtle">3 finding(s), confidence 1</p></div><div class="list-item"><strong>route-hotspot</strong><p>Route https://example.comhttps//github.com/just03jai-ai/ai-runtime-governance-os/settings concentrates 14 verified findings.</p><p class="subtle">14 finding(s), confidence 1</p></div></div>
+        <div class="list"><div class="list-item"><strong>token-drift</strong><p>Design token drift detected around typography.body.fontFamily.</p><p class="subtle">3 finding(s), confidence 1</p></div><div class="list-item"><strong>route-hotspot</strong><p>Route https://example.com/ concentrates 17 verified findings.</p><p class="subtle">17 finding(s), confidence 1</p></div></div>
       </section>
       <section>
         <h2>Root Cause Summaries</h2>
-        <div class="list"><div class="list-item"><strong>root-cause-token-typography-body-fontfamily</strong><p>Missing or inconsistent token evidence for typography.body.fontFamily affects 1 component(s).</p><p class="subtle">3 supporting finding(s), confidence 1</p></div><div class="list-item"><strong>root-cause-token-typography-body-fontsize</strong><p>Missing or inconsistent token evidence for typography.body.fontSize affects 1 component(s).</p><p class="subtle">3 supporting finding(s), confidence 1</p></div><div class="list-item"><strong>root-cause-token-color-action-primary-background</strong><p>Missing or inconsistent token evidence for color.action.primary.background affects 1 component(s).</p><p class="subtle">2 supporting finding(s), confidence 1</p></div><div class="list-item"><strong>root-cause-component-text</strong><p>Component Text has repeated governance issues across 1 route(s).</p><p class="subtle">6 supporting finding(s), confidence 0.7</p></div><div class="list-item"><strong>root-cause-component-button</strong><p>Component Button has repeated governance issues across 1 route(s).</p><p class="subtle">4 supporting finding(s), confidence 0.7</p></div><div class="list-item"><strong>root-cause-component-textfield</strong><p>Component TextField has repeated governance issues across 1 route(s).</p><p class="subtle">4 supporting finding(s), confidence 0.7</p></div></div>
+        <div class="list"><div class="list-item"><strong>root-cause-token-typography-body-fontfamily</strong><p>Missing or inconsistent token evidence for typography.body.fontFamily affects 1 component(s).</p><p class="subtle">3 supporting finding(s), confidence 1</p></div><div class="list-item"><strong>root-cause-token-typography-body-fontsize</strong><p>Missing or inconsistent token evidence for typography.body.fontSize affects 1 component(s).</p><p class="subtle">3 supporting finding(s), confidence 1</p></div><div class="list-item"><strong>root-cause-token-color-action-primary-background</strong><p>Missing or inconsistent token evidence for color.action.primary.background affects 1 component(s).</p><p class="subtle">2 supporting finding(s), confidence 1</p></div><div class="list-item"><strong>root-cause-component-text</strong><p>Component Text has repeated governance issues across 1 route(s).</p><p class="subtle">6 supporting finding(s), confidence 0.8</p></div><div class="list-item"><strong>root-cause-component-button</strong><p>Component Button has repeated governance issues across 1 route(s).</p><p class="subtle">4 supporting finding(s), confidence 0.8</p></div><div class="list-item"><strong>root-cause-component-textfield</strong><p>Component TextField has repeated governance issues across 1 route(s).</p><p class="subtle">4 supporting finding(s), confidence 0.8</p></div></div>
       </section>
     </div>
 
@@ -282,7 +322,7 @@
       </section>
       <section>
         <h2>Component Misuse</h2>
-        <div class="list"><div class="list-item"><strong>Text</strong><p class="subtle">6 occurrence(s) across 1 route(s)</p></div><div class="list-item"><strong>Button</strong><p class="subtle">4 occurrence(s) across 1 route(s)</p></div><div class="list-item"><strong>TextField</strong><p class="subtle">4 occurrence(s) across 1 route(s)</p></div></div>
+        <div class="list"><div class="list-item"><strong>Text</strong><p class="subtle">6 occurrence(s) across 1 route(s)</p></div><div class="list-item"><strong>Button</strong><p class="subtle">4 occurrence(s) across 1 route(s)</p></div><div class="list-item"><strong>TextField</strong><p class="subtle">4 occurrence(s) across 1 route(s)</p></div><div class="list-item"><strong>Link</strong><p class="subtle">3 occurrence(s) across 1 route(s)</p></div></div>
       </section>
     </div>
   </main>
