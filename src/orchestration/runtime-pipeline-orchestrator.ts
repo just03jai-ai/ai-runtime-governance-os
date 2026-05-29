@@ -2,6 +2,8 @@ import type { AnalyzerAgent } from "../agents/analyzer/analyzer-agent.js";
 import type { OperationalInsightsReport } from "../agents/analyzer/operational-insights-report.js";
 import type { ExecutionAgent } from "../agents/execution/execution-agent.js";
 import type { GovernanceAgent } from "../agents/governance/governance-agent.js";
+import type { MemoryAgent } from "../agents/memory/memory-agent.js";
+import type { HistoricalInsights } from "../agents/memory/types.js";
 import type { VerifiedFinding } from "../agents/verifier/verified-finding.js";
 import type { VerifierAgent, VerifierAgentResult } from "../agents/verifier/verifier-agent.js";
 import type { RuntimeExecutionRequest } from "../governance/contracts/execution.js";
@@ -12,7 +14,7 @@ import { createAgentLogger, type OperationalLogger } from "../shared/logger/inde
 import type { RuntimeEvidence } from "../shared/types/runtime-evidence.js";
 import type { GovernanceExecutionRepository } from "../memory/storage/types.js";
 
-export type RuntimePipelineStageName = "execution" | "governance" | "verification" | "findings" | "analysis";
+export type RuntimePipelineStageName = "execution" | "governance" | "verification" | "findings" | "analysis" | "memory";
 
 export interface RuntimePipelineStageMetric {
   readonly stage: RuntimePipelineStageName;
@@ -34,6 +36,7 @@ export interface RuntimePipelineAgents {
   readonly verifierAgent: VerifierAgent;
   readonly findingsEngine: FindingsReportEngine;
   readonly analyzerAgent: AnalyzerAgent;
+  readonly memoryAgent?: MemoryAgent | undefined;
 }
 
 export interface RuntimePipelineRequest {
@@ -51,6 +54,7 @@ export interface RuntimePipelineResult {
   readonly verifierResult: VerifierAgentResult;
   readonly findingsReport: FindingsReport;
   readonly operationalInsights: OperationalInsightsReport;
+  readonly memoryInsights?: HistoricalInsights | undefined;
   readonly metrics: readonly RuntimePipelineStageMetric[];
 }
 
@@ -125,6 +129,29 @@ export class RuntimePipelineOrchestrator {
         () => Promise.resolve(this.agents.analyzerAgent.analyze(verifierResult.findings)),
       );
 
+      const memoryInsights = this.agents.memoryAgent
+        ? await this.runStage("memory", metrics, request.retryPolicy, () =>
+            this.agents.memoryAgent!.analyze({
+              verifiedFindings: verifierResult.findings,
+              executionMetadata: {
+                runId: runtimeEvidence.execution.runId,
+                route: runtimeEvidence.route.resolvedUrl || runtimeEvidence.route.targetUrl,
+                ...(runtimeEvidence.route.routeId ? { routeId: runtimeEvidence.route.routeId } : {}),
+                environment: runtimeEvidence.execution.environment,
+                status: runtimeEvidence.execution.status,
+                governanceScore: findingsReport.governanceScore.score,
+                startedAt: runtimeEvidence.timestamps.startedAt,
+                ...(runtimeEvidence.timestamps.completedAt ? { completedAt: runtimeEvidence.timestamps.completedAt } : {}),
+                metadata: {
+                  title: runtimeEvidence.route.title,
+                  targetUrl: runtimeEvidence.route.targetUrl,
+                  reportId: findingsReport.reportId,
+                },
+              },
+            }),
+          )
+        : undefined;
+
       await request.storageRepository?.saveExecution({
         correlationId: runtimeEvidence.execution.runId,
         runtimeEvidence,
@@ -149,6 +176,7 @@ export class RuntimePipelineOrchestrator {
         verifierResult,
         findingsReport,
         operationalInsights,
+        ...(memoryInsights ? { memoryInsights } : {}),
         metrics,
       };
     } catch (error) {

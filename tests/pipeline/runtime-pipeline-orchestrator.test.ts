@@ -4,6 +4,7 @@ import {
   RuntimePipelineOrchestrator,
   type RuntimePipelineAgents,
 } from "../../src/orchestration/runtime-pipeline-orchestrator.js";
+import type { HistoricalInsights } from "../../src/agents/memory/types.js";
 import type { FindingsReport } from "../../src/reports/findings/findings-report.js";
 import type { OperationalLogger } from "../../src/shared/logger/index.js";
 import type { OperationalInsightsReport } from "../../src/shared/types/operational-insights-report.js";
@@ -128,5 +129,142 @@ describe("RuntimePipelineOrchestrator", () => {
     expect(result.runtimeEvidence.execution.runId).toBe("runtime_test_001");
     expect(result.metrics).toHaveLength(5);
     expect(result.metrics.every((metric) => metric.status === "passed")).toBe(true);
+  });
+
+  it("runs MemoryAgent when configured and returns historical insights", async () => {
+    const stageOrder: string[] = [];
+    const findingsReport: FindingsReport = {
+      reportId: "findings-report:runtime_test_001",
+      executionSummary: {
+        runId: "runtime_test_001",
+        route: "https://example.test/checkout",
+        title: "Checkout",
+        generatedAt: "2026-05-28T00:00:03.000Z",
+        executionStatus: "passed",
+        durationMs: 120,
+      },
+      governanceScore: {
+        score: 90,
+        verifiedFindingCount: 1,
+        needsReviewFindingCount: 0,
+        rejectedFindingCount: 0,
+      },
+      severitySummary: {
+        critical: 1,
+        medium: 0,
+        minor: 0,
+        total: 1,
+      },
+      routeAnalysis: [],
+      criticalFindings: [verifiedFindingsFixture[0]],
+      mediumFindings: [],
+      minorFindings: [],
+      evidenceReferences: [],
+      screenshots: mockRuntimeEvidence.screenshots,
+    };
+    const insightsReport: OperationalInsightsReport = {
+      reportId: "operational-insights:test",
+      generatedAt: "2026-05-28T00:00:04.000Z",
+      findingCount: 1,
+      clusters: [],
+      routeClusters: [],
+      recurringPatterns: [],
+      tokenDrift: [],
+      componentMisuse: [],
+      rootCauseSummaries: [],
+    };
+    const memoryInsights: HistoricalInsights = {
+      runId: "runtime_test_001",
+      generatedAt: "2026-05-28T00:00:05.000Z",
+      analyzedExecutionCount: 1,
+      recurringViolations: [],
+      regressions: [],
+      governanceScoreTrend: {
+        points: [],
+        direction: "insufficient-data",
+      },
+      routeHistory: [],
+      componentFailureFrequency: [],
+    };
+    const memoryAnalyze = vi.fn(async () => {
+      stageOrder.push("memory");
+      return memoryInsights;
+    });
+    const agents = {
+      executionAgent: {
+        execute: vi.fn(async () => {
+          stageOrder.push("execution");
+          return mockRuntimeEvidence;
+        }),
+      },
+      governanceAgent: {
+        analyze: vi.fn(async () => {
+          stageOrder.push("governance");
+          return [governanceFindingFixture];
+        }),
+      },
+      verifierAgent: {
+        verify: vi.fn(() => {
+          stageOrder.push("verification");
+          return {
+            findings: [verifiedFindingsFixture[0]],
+            score: {
+              verifiedCount: 1,
+              rejectedCount: 0,
+              needsReviewCount: 0,
+              averageConfidence: 0.95,
+            },
+          };
+        }),
+      },
+      findingsEngine: {
+        generate: vi.fn(() => {
+          stageOrder.push("findings");
+          return findingsReport;
+        }),
+      },
+      analyzerAgent: {
+        analyze: vi.fn(() => {
+          stageOrder.push("analysis");
+          return insightsReport;
+        }),
+      },
+      memoryAgent: {
+        analyze: memoryAnalyze,
+      },
+    } as unknown as RuntimePipelineAgents;
+
+    const result = await new RuntimePipelineOrchestrator(agents, noOpLogger).run({
+      executionRequest: {
+        targetUrl: "https://example.test/checkout",
+        environment: "local",
+        viewport: {
+          width: 1366,
+          height: 768,
+        },
+      },
+    });
+
+    expect(stageOrder).toEqual(["execution", "governance", "verification", "findings", "analysis", "memory"]);
+    expect(result.memoryInsights).toBe(memoryInsights);
+    expect(result.metrics.map((metric) => metric.stage)).toEqual([
+      "execution",
+      "governance",
+      "verification",
+      "findings",
+      "analysis",
+      "memory",
+    ]);
+    expect(memoryAnalyze).toHaveBeenCalledWith(
+      expect.objectContaining({
+        verifiedFindings: [verifiedFindingsFixture[0]],
+        executionMetadata: expect.objectContaining({
+          runId: "runtime_test_001",
+          route: "https://example.test/checkout",
+          governanceScore: 90,
+          status: "passed",
+        }),
+      }),
+    );
   });
 });

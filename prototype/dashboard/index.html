@@ -7,324 +7,689 @@
   <style>
     :root {
       color-scheme: light;
-      --bg: #f5f7fa;
+      --bg: #f8f9fb;
+      --nav: #111827;
       --panel: #ffffff;
-      --border: #d9e0e8;
-      --text: #18212f;
-      --muted: #5d6b7c;
-      --critical: #b42318;
-      --warning: #9a6700;
-      --info: #175cd3;
-      --ok: #067647;
+      --panel-soft: #f9fafb;
+      --border: #e5e7eb;
+      --text: #111827;
+      --muted: #6b7280;
+      --critical: #dc2626;
+      --warning: #d97706;
+      --info: #2563eb;
+      --ok: #16a34a;
+      --accent: #6366f1;
     }
+
     * { box-sizing: border-box; }
-    body { margin: 0; font-family: Arial, Helvetica, sans-serif; background: var(--bg); color: var(--text); }
-    main { max-width: 1280px; margin: 0 auto; padding: 28px; }
-    header { margin-bottom: 22px; }
-    h1 { margin: 0 0 6px; font-size: 28px; line-height: 1.2; letter-spacing: 0; }
-    h2 { margin: 0 0 14px; font-size: 18px; letter-spacing: 0; }
-    h3 { margin: 0 0 8px; font-size: 15px; letter-spacing: 0; }
-    p { margin: 0; }
+
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--text);
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      line-height: 1.45;
+    }
+
+    main {
+      max-width: 1180px;
+      margin: 0 auto;
+      padding: 28px;
+    }
+
+    h1, h2, h3, p { margin: 0; }
+    h1 { font-size: 26px; line-height: 1.2; letter-spacing: 0; }
+    h2 { font-size: 16px; letter-spacing: 0; }
+    h3 { font-size: 14px; letter-spacing: 0; }
+    code { font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace; font-size: 12px; word-break: break-word; }
+
+    .page-header {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 20px;
+      margin-bottom: 18px;
+    }
+
     .subtle { color: var(--muted); font-size: 13px; }
-    .grid { display: grid; gap: 16px; }
-    .metrics { grid-template-columns: repeat(4, minmax(0, 1fr)); }
-    .two { grid-template-columns: minmax(0, 1.15fr) minmax(0, .85fr); }
-    section, .panel { background: var(--panel); border: 1px solid var(--border); border-radius: 8px; padding: 18px; }
-    .metric { min-height: 96px; display: flex; flex-direction: column; justify-content: space-between; }
-    .metric span { color: var(--muted); font-size: 13px; }
-    .metric strong { font-size: 34px; line-height: 1; }
-    .score strong { color: var(--ok); }
-    .critical { color: var(--critical); }
+
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      width: fit-content;
+      min-height: 26px;
+      padding: 4px 9px;
+      border: 1px solid currentColor;
+      border-radius: 999px;
+      font-size: 12px;
+      font-weight: 700;
+    }
+
     .warning { color: var(--warning); }
+    .critical { color: var(--critical); }
     .info { color: var(--info); }
-    table { width: 100%; border-collapse: collapse; font-size: 13px; }
-    th, td { padding: 10px; border-bottom: 1px solid var(--border); text-align: left; vertical-align: top; }
-    th { background: #eef2f6; color: #344054; font-weight: 700; }
-    code { font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace; word-break: break-word; }
-    .badge { display: inline-block; padding: 3px 8px; border-radius: 999px; border: 1px solid currentColor; font-size: 12px; font-weight: 700; }
-    .finding { border: 1px solid var(--border); border-radius: 8px; padding: 14px; margin-bottom: 10px; background: #fbfcfe; }
-    .finding:last-child { margin-bottom: 0; }
-    .finding-grid { display: grid; grid-template-columns: 150px minmax(0, 1fr); gap: 8px 14px; font-size: 13px; }
-    .screenshots { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 14px; }
-    .screenshot { border: 1px solid var(--border); border-radius: 8px; overflow: hidden; background: #f8fafc; }
-    .screenshot img { width: 100%; max-height: 260px; object-fit: contain; display: block; background: #fff; border-bottom: 1px solid var(--border); }
-    .screenshot div { padding: 10px; }
-    .list { display: grid; gap: 10px; }
-    .list-item { padding: 12px; border: 1px solid var(--border); border-radius: 8px; background: #fbfcfe; }
-    .empty { color: var(--muted); padding: 12px; background: #fbfcfe; border: 1px dashed var(--border); border-radius: 8px; }
-    @media (max-width: 900px) {
+    .ok { color: var(--ok); }
+
+    section, .card {
+      background: var(--panel);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 18px;
+      box-shadow: 0 1px 2px rgba(17, 24, 39, .04);
+    }
+
+    .url-card { margin-bottom: 18px; }
+    .url-card h2 { margin-bottom: 8px; }
+
+    label {
+      display: block;
+      margin-bottom: 8px;
+      color: #374151;
+      font-size: 13px;
+      font-weight: 700;
+    }
+
+    input {
+      width: 100%;
+      min-height: 42px;
+      padding: 9px 11px;
+      border: 1px solid var(--border);
+      border-radius: 7px;
+      background: #fff;
+      color: var(--text);
+      font: inherit;
+      outline: none;
+    }
+
+    input:focus {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 3px rgba(99, 102, 241, .14);
+    }
+
+    button {
+      min-height: 42px;
+      padding: 9px 16px;
+      border: 1px solid var(--accent);
+      border-radius: 7px;
+      background: var(--accent);
+      color: #fff;
+      cursor: pointer;
+      font: inherit;
+      font-size: 14px;
+      font-weight: 700;
+    }
+
+    button.secondary {
+      background: #fff;
+      color: var(--accent);
+    }
+
+    .url-form {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      gap: 12px;
+      align-items: end;
+      margin-top: 14px;
+    }
+
+    .form-actions {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+    }
+
+    .dashboard { display: none; }
+    .dashboard.is-visible { display: block; }
+
+    .app-shell {
+      display: grid;
+      grid-template-columns: 248px minmax(0, 1fr);
+      min-height: 720px;
+      overflow: hidden;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      background: var(--panel);
+      box-shadow: 0 16px 40px rgba(17, 24, 39, .08);
+    }
+
+    .sidebar {
+      padding: 22px 16px;
+      background: var(--nav);
+      color: #f9fafb;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 28px;
+      font-weight: 800;
+    }
+
+    .brand-mark {
+      display: grid;
+      width: 34px;
+      height: 34px;
+      place-items: center;
+      border-radius: 8px;
+      background: var(--accent);
+    }
+
+    .nav-group {
+      display: grid;
+      gap: 6px;
+    }
+
+    .nav-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      min-height: 38px;
+      padding: 8px 10px;
+      border-radius: 7px;
+      color: #cbd5e1;
+      font-size: 14px;
+    }
+
+    .nav-item.active {
+      background: rgba(99, 102, 241, .18);
+      color: #fff;
+    }
+
+    .nav-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: currentColor;
+    }
+
+    .workspace {
+      min-width: 0;
+      background: #f8f9fb;
+    }
+
+    .topbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      padding: 18px 22px;
+      border-bottom: 1px solid var(--border);
+      background: #fff;
+    }
+
+    .topbar-title {
+      display: grid;
+      gap: 3px;
+      min-width: 0;
+    }
+
+    .topbar-actions {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .content {
+      display: grid;
+      gap: 16px;
+      padding: 22px;
+    }
+
+    .kpis {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 14px;
+    }
+
+    .kpi {
+      display: grid;
+      gap: 12px;
+      min-height: 132px;
+      align-content: space-between;
+      background: #fff;
+    }
+
+    .kpi-label {
+      color: var(--muted);
+      font-size: 13px;
+      font-weight: 700;
+    }
+
+    .kpi-value {
+      font-size: 32px;
+      font-weight: 800;
+      line-height: 1;
+    }
+
+    .main-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1.25fr) minmax(300px, .75fr);
+      gap: 16px;
+    }
+
+    .panel-title {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 16px;
+    }
+
+    .bar-chart {
+      display: grid;
+      grid-template-columns: repeat(7, 1fr);
+      align-items: end;
+      gap: 12px;
+      height: 190px;
+      padding-top: 8px;
+    }
+
+    .bar {
+      display: grid;
+      align-content: end;
+      gap: 8px;
+      min-width: 0;
+      height: 100%;
+    }
+
+    .bar-fill {
+      width: 100%;
+      min-height: 14px;
+      border-radius: 7px 7px 3px 3px;
+      background: linear-gradient(180deg, #818cf8, #6366f1);
+    }
+
+    .bar span {
+      color: var(--muted);
+      font-size: 11px;
+      text-align: center;
+    }
+
+    .issue-list, .action-list {
+      display: grid;
+      gap: 10px;
+    }
+
+    .issue, .action, .signal {
+      display: grid;
+      gap: 8px;
+      padding: 14px;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      background: var(--panel-soft);
+    }
+
+    .signal-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 12px;
+    }
+
+    .signal strong {
+      font-size: 22px;
+      line-height: 1;
+    }
+
+    .issue-header {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 14px;
+    }
+
+    .count {
+      color: var(--muted);
+      font-size: 13px;
+      white-space: nowrap;
+    }
+
+    .token-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .token {
+      padding: 5px 8px;
+      border: 1px solid var(--border);
+      border-radius: 7px;
+      background: #fff;
+      color: #374151;
+      font-size: 12px;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 13px;
+    }
+
+    th, td {
+      padding: 11px 10px;
+      border-bottom: 1px solid var(--border);
+      text-align: left;
+      vertical-align: top;
+    }
+
+    th {
+      color: #374151;
+      font-size: 12px;
+      font-weight: 700;
+      text-transform: uppercase;
+    }
+
+    tr:last-child td { border-bottom: 0; }
+
+    .footer-note {
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    @media (max-width: 980px) {
       main { padding: 18px; }
-      .metrics, .two { grid-template-columns: 1fr; }
-      .finding-grid { grid-template-columns: 1fr; }
+      .page-header, .url-form, .form-actions, .topbar, .issue-header { display: grid; }
+      .app-shell { grid-template-columns: 1fr; }
+      .sidebar { display: none; }
+      .kpis, .main-grid, .signal-grid { grid-template-columns: 1fr; }
     }
   </style>
 </head>
 <body>
   <main>
-    <header>
-      <h1>AI Runtime Governance OS Dashboard</h1>
-      <p class="subtle">Generated 2026-05-29T11:38:36.744Z from verified runtime governance evidence.</p>
+    <header class="page-header">
+      <div>
+        <h1>AI Runtime Governance OS Dashboard</h1>
+        <p class="subtle">Enter a route to generate the governance dashboard.</p>
+      </div>
+      <span class="pill warning" id="statusPill">Awaiting URL</span>
     </header>
 
-    <section class="grid metrics">
-      <div class="metric score"><span>Governance Score</span><strong>0</strong></div>
-      <div class="metric"><span>Critical Findings</span><strong class="critical">0</strong></div>
-      <div class="metric"><span>Warning Findings</span><strong class="warning">16</strong></div>
-      <div class="metric"><span>Total Active Findings</span><strong>17</strong></div>
+    <section class="url-card">
+      <h2>Route Check</h2>
+      <p class="subtle">Submit the page URL you want to review. The dashboard appears after submission.</p>
+      <form class="url-form" id="urlForm">
+        <div>
+          <label for="routeInput">URL</label>
+          <input id="routeInput" name="route" type="url" placeholder="https://example.com/dashboard" required>
+        </div>
+        <div class="form-actions">
+          <button type="submit">Submit</button>
+          <button class="secondary" type="button" id="demoButton">Use demo</button>
+        </div>
+      </form>
     </section>
 
-    <div class="grid two" style="margin-top: 16px;">
-      <section>
-        <h2>Route Summaries</h2>
-        <table>
-      <thead><tr><th>Route</th><th>Total</th><th>Critical</th><th>Warning</th><th>Info</th></tr></thead>
-      <tbody><tr><td><code>https://example.com/</code></td><td>17</td><td class="critical">0</td><td class="warning">16</td><td class="info">1</td></tr></tbody>
-    </table>
-      </section>
-      <section>
-        <h2>Execution Metrics</h2>
-        <table>
-      <thead><tr><th>Stage</th><th>Status</th><th>Duration</th><th>Attempts</th></tr></thead>
-      <tbody><tr><td>execution</td><td>passed</td><td>768ms</td><td>1</td></tr><tr><td>governance</td><td>passed</td><td>2ms</td><td>1</td></tr><tr><td>verification</td><td>passed</td><td>0ms</td><td>1</td></tr><tr><td>findings</td><td>passed</td><td>0ms</td><td>1</td></tr><tr><td>analysis</td><td>passed</td><td>0ms</td><td>1</td></tr></tbody>
-    </table>
-      </section>
-    </div>
+    <div class="dashboard" id="dashboard">
+      <div class="app-shell">
+        <aside class="sidebar" aria-label="Dashboard navigation">
+          <div class="brand">
+            <span class="brand-mark">G</span>
+            <span>Governance OS</span>
+          </div>
+          <nav class="nav-group">
+            <div class="nav-item active"><span class="nav-dot"></span>Overview</div>
+            <div class="nav-item"><span class="nav-dot"></span>Evidence</div>
+            <div class="nav-item"><span class="nav-dot"></span>Components</div>
+            <div class="nav-item"><span class="nav-dot"></span>Policies</div>
+            <div class="nav-item"><span class="nav-dot"></span>Intelligence</div>
+            <div class="nav-item"><span class="nav-dot"></span>Releases</div>
+          </nav>
+        </aside>
 
-    <section style="margin-top: 16px;">
-      <h2>Critical Findings</h2>
-      <div class="empty">No findings in this severity group.</div>
-    </section>
+        <div class="workspace">
+          <div class="topbar">
+            <div class="topbar-title">
+              <h2>Runtime Overview</h2>
+              <code data-route>Submit a URL</code>
+            </div>
+            <div class="topbar-actions">
+              <span id="generatedAt">Not generated yet</span>
+              <span class="pill ok">Passed</span>
+            </div>
+          </div>
 
-    <section style="margin-top: 16px;">
-      <h2>Warning Findings</h2>
-      <article class="finding">
-      <h3><span class="badge warning">warning</span> verified:runtime_2026-05-29T11-38-35-974Z_bc4fed17-f08a-4955-82fc-e82b8c917ad2:design-system.allowed-component:component-1</h3>
-      <div class="finding-grid">
-        <div class="subtle">Status</div><div>verified</div>
-        <div class="subtle">Route</div><div><code>https://example.com/</code></div>
-        <div class="subtle">Component</div><div><strong>Link</strong> <code>component-1</code></div>
-        <div class="subtle">Expected</div><div>Runtime component must match an approved design-system component contract.</div>
-        <div class="subtle">Actual</div><div>a role=null selector=a</div>
-        <div class="subtle">Confidence</div><div>1</div>
-        <div class="subtle">Evidence</div><div><code>{&quot;componentId&quot;:&quot;component-1&quot;,&quot;componentName&quot;:&quot;Link&quot;,&quot;tagName&quot;:&quot;a&quot;,&quot;role&quot;:null,&quot;selectorHint&quot;:&quot;a&quot;,&quot;visible&quot;:true}</code></div>
-      </div>
-    </article><article class="finding">
-      <h3><span class="badge warning">warning</span> verified:runtime_2026-05-29T11-38-35-974Z_bc4fed17-f08a-4955-82fc-e82b8c917ad2:design-system.button.token.color.action.primary.background:Button</h3>
-      <div class="finding-grid">
-        <div class="subtle">Status</div><div>verified</div>
-        <div class="subtle">Route</div><div><code>https://example.com/</code></div>
-        <div class="subtle">Component</div><div><strong>Button</strong> <code>Button</code></div>
-        <div class="subtle">Expected</div><div>color.action.primary.background (color)</div>
-        <div class="subtle">Actual</div><div>missing</div>
-        <div class="subtle">Confidence</div><div>0.8</div>
-        <div class="subtle">Evidence</div><div><code>{&quot;runId&quot;:&quot;runtime_2026-05-29T11-38-35-974Z_bc4fed17-f08a-4955-82fc-e82b8c917ad2&quot;,&quot;componentName&quot;:&quot;Button&quot;}</code></div>
-      </div>
-    </article><article class="finding">
-      <h3><span class="badge warning">warning</span> verified:runtime_2026-05-29T11-38-35-974Z_bc4fed17-f08a-4955-82fc-e82b8c917ad2:design-system.button.token.radius.control.default:Button</h3>
-      <div class="finding-grid">
-        <div class="subtle">Status</div><div>verified</div>
-        <div class="subtle">Route</div><div><code>https://example.com/</code></div>
-        <div class="subtle">Component</div><div><strong>Button</strong> <code>Button</code></div>
-        <div class="subtle">Expected</div><div>radius.control.default (radius)</div>
-        <div class="subtle">Actual</div><div>missing</div>
-        <div class="subtle">Confidence</div><div>0.8</div>
-        <div class="subtle">Evidence</div><div><code>{&quot;runId&quot;:&quot;runtime_2026-05-29T11-38-35-974Z_bc4fed17-f08a-4955-82fc-e82b8c917ad2&quot;,&quot;componentName&quot;:&quot;Button&quot;}</code></div>
-      </div>
-    </article><article class="finding">
-      <h3><span class="badge warning">warning</span> verified:runtime_2026-05-29T11-38-35-974Z_bc4fed17-f08a-4955-82fc-e82b8c917ad2:design-system.input.token.color.input.border:Input</h3>
-      <div class="finding-grid">
-        <div class="subtle">Status</div><div>verified</div>
-        <div class="subtle">Route</div><div><code>https://example.com/</code></div>
-        <div class="subtle">Component</div><div><strong>TextField</strong> <code>Input</code></div>
-        <div class="subtle">Expected</div><div>color.input.border (color)</div>
-        <div class="subtle">Actual</div><div>missing</div>
-        <div class="subtle">Confidence</div><div>0.8</div>
-        <div class="subtle">Evidence</div><div><code>{&quot;runId&quot;:&quot;runtime_2026-05-29T11-38-35-974Z_bc4fed17-f08a-4955-82fc-e82b8c917ad2&quot;,&quot;componentName&quot;:&quot;TextField&quot;}</code></div>
-      </div>
-    </article><article class="finding">
-      <h3><span class="badge warning">warning</span> verified:runtime_2026-05-29T11-38-35-974Z_bc4fed17-f08a-4955-82fc-e82b8c917ad2:design-system.input.token.spacing.input.paddingX:Input</h3>
-      <div class="finding-grid">
-        <div class="subtle">Status</div><div>verified</div>
-        <div class="subtle">Route</div><div><code>https://example.com/</code></div>
-        <div class="subtle">Component</div><div><strong>TextField</strong> <code>Input</code></div>
-        <div class="subtle">Expected</div><div>spacing.input.paddingX (spacing)</div>
-        <div class="subtle">Actual</div><div>missing</div>
-        <div class="subtle">Confidence</div><div>0.8</div>
-        <div class="subtle">Evidence</div><div><code>{&quot;runId&quot;:&quot;runtime_2026-05-29T11-38-35-974Z_bc4fed17-f08a-4955-82fc-e82b8c917ad2&quot;,&quot;componentName&quot;:&quot;TextField&quot;}</code></div>
-      </div>
-    </article><article class="finding">
-      <h3><span class="badge warning">warning</span> verified:runtime_2026-05-29T11-38-35-974Z_bc4fed17-f08a-4955-82fc-e82b8c917ad2:design-system.typography.token.typography.body.fontFamily:Typography</h3>
-      <div class="finding-grid">
-        <div class="subtle">Status</div><div>verified</div>
-        <div class="subtle">Route</div><div><code>https://example.com/</code></div>
-        <div class="subtle">Component</div><div><strong>Text</strong> <code>Typography</code></div>
-        <div class="subtle">Expected</div><div>typography.body.fontFamily (typography)</div>
-        <div class="subtle">Actual</div><div>missing</div>
-        <div class="subtle">Confidence</div><div>0.8</div>
-        <div class="subtle">Evidence</div><div><code>{&quot;runId&quot;:&quot;runtime_2026-05-29T11-38-35-974Z_bc4fed17-f08a-4955-82fc-e82b8c917ad2&quot;,&quot;componentName&quot;:&quot;Text&quot;}</code></div>
-      </div>
-    </article><article class="finding">
-      <h3><span class="badge warning">warning</span> verified:runtime_2026-05-29T11-38-35-974Z_bc4fed17-f08a-4955-82fc-e82b8c917ad2:design-system.typography.token.typography.body.fontSize:Typography</h3>
-      <div class="finding-grid">
-        <div class="subtle">Status</div><div>verified</div>
-        <div class="subtle">Route</div><div><code>https://example.com/</code></div>
-        <div class="subtle">Component</div><div><strong>Text</strong> <code>Typography</code></div>
-        <div class="subtle">Expected</div><div>typography.body.fontSize (typography)</div>
-        <div class="subtle">Actual</div><div>missing</div>
-        <div class="subtle">Confidence</div><div>0.8</div>
-        <div class="subtle">Evidence</div><div><code>{&quot;runId&quot;:&quot;runtime_2026-05-29T11-38-35-974Z_bc4fed17-f08a-4955-82fc-e82b8c917ad2&quot;,&quot;componentName&quot;:&quot;Text&quot;}</code></div>
-      </div>
-    </article><article class="finding">
-      <h3><span class="badge warning">warning</span> verified:runtime_2026-05-29T11-38-35-974Z_bc4fed17-f08a-4955-82fc-e82b8c917ad2:core.token-drift:Button</h3>
-      <div class="finding-grid">
-        <div class="subtle">Status</div><div>verified</div>
-        <div class="subtle">Route</div><div><code>https://example.com/</code></div>
-        <div class="subtle">Component</div><div><strong>Button</strong> <code>Button</code></div>
-        <div class="subtle">Expected</div><div>color.action.primary.background (color)</div>
-        <div class="subtle">Actual</div><div>missing from runtime token evidence</div>
-        <div class="subtle">Confidence</div><div>0.8</div>
-        <div class="subtle">Evidence</div><div><code>{&quot;contractId&quot;:&quot;design-system.button&quot;,&quot;tokenName&quot;:&quot;color.action.primary.background&quot;,&quot;tokenCategory&quot;:&quot;color&quot;,&quot;componentName&quot;:&quot;Button&quot;}</code></div>
-      </div>
-    </article><article class="finding">
-      <h3><span class="badge warning">warning</span> verified:runtime_2026-05-29T11-38-35-974Z_bc4fed17-f08a-4955-82fc-e82b8c917ad2:core.token-drift:Button</h3>
-      <div class="finding-grid">
-        <div class="subtle">Status</div><div>verified</div>
-        <div class="subtle">Route</div><div><code>https://example.com/</code></div>
-        <div class="subtle">Component</div><div><strong>Button</strong> <code>Button</code></div>
-        <div class="subtle">Expected</div><div>radius.control.default (radius)</div>
-        <div class="subtle">Actual</div><div>missing from runtime token evidence</div>
-        <div class="subtle">Confidence</div><div>0.8</div>
-        <div class="subtle">Evidence</div><div><code>{&quot;contractId&quot;:&quot;design-system.button&quot;,&quot;tokenName&quot;:&quot;radius.control.default&quot;,&quot;tokenCategory&quot;:&quot;radius&quot;,&quot;componentName&quot;:&quot;Button&quot;}</code></div>
-      </div>
-    </article><article class="finding">
-      <h3><span class="badge warning">warning</span> verified:runtime_2026-05-29T11-38-35-974Z_bc4fed17-f08a-4955-82fc-e82b8c917ad2:core.token-drift:Input</h3>
-      <div class="finding-grid">
-        <div class="subtle">Status</div><div>verified</div>
-        <div class="subtle">Route</div><div><code>https://example.com/</code></div>
-        <div class="subtle">Component</div><div><strong>TextField</strong> <code>Input</code></div>
-        <div class="subtle">Expected</div><div>color.input.border (color)</div>
-        <div class="subtle">Actual</div><div>missing from runtime token evidence</div>
-        <div class="subtle">Confidence</div><div>0.8</div>
-        <div class="subtle">Evidence</div><div><code>{&quot;contractId&quot;:&quot;design-system.input&quot;,&quot;tokenName&quot;:&quot;color.input.border&quot;,&quot;tokenCategory&quot;:&quot;color&quot;,&quot;componentName&quot;:&quot;TextField&quot;}</code></div>
-      </div>
-    </article><article class="finding">
-      <h3><span class="badge warning">warning</span> verified:runtime_2026-05-29T11-38-35-974Z_bc4fed17-f08a-4955-82fc-e82b8c917ad2:core.token-drift:Input</h3>
-      <div class="finding-grid">
-        <div class="subtle">Status</div><div>verified</div>
-        <div class="subtle">Route</div><div><code>https://example.com/</code></div>
-        <div class="subtle">Component</div><div><strong>TextField</strong> <code>Input</code></div>
-        <div class="subtle">Expected</div><div>spacing.input.paddingX (spacing)</div>
-        <div class="subtle">Actual</div><div>missing from runtime token evidence</div>
-        <div class="subtle">Confidence</div><div>0.8</div>
-        <div class="subtle">Evidence</div><div><code>{&quot;contractId&quot;:&quot;design-system.input&quot;,&quot;tokenName&quot;:&quot;spacing.input.paddingX&quot;,&quot;tokenCategory&quot;:&quot;spacing&quot;,&quot;componentName&quot;:&quot;TextField&quot;}</code></div>
-      </div>
-    </article><article class="finding">
-      <h3><span class="badge warning">warning</span> verified:runtime_2026-05-29T11-38-35-974Z_bc4fed17-f08a-4955-82fc-e82b8c917ad2:core.token-drift:Typography</h3>
-      <div class="finding-grid">
-        <div class="subtle">Status</div><div>verified</div>
-        <div class="subtle">Route</div><div><code>https://example.com/</code></div>
-        <div class="subtle">Component</div><div><strong>Text</strong> <code>Typography</code></div>
-        <div class="subtle">Expected</div><div>typography.body.fontFamily (typography)</div>
-        <div class="subtle">Actual</div><div>missing from runtime token evidence</div>
-        <div class="subtle">Confidence</div><div>0.8</div>
-        <div class="subtle">Evidence</div><div><code>{&quot;contractId&quot;:&quot;design-system.typography&quot;,&quot;tokenName&quot;:&quot;typography.body.fontFamily&quot;,&quot;tokenCategory&quot;:&quot;typography&quot;,&quot;componentName&quot;:&quot;Text&quot;}</code></div>
-      </div>
-    </article><article class="finding">
-      <h3><span class="badge warning">warning</span> verified:runtime_2026-05-29T11-38-35-974Z_bc4fed17-f08a-4955-82fc-e82b8c917ad2:core.token-drift:Typography</h3>
-      <div class="finding-grid">
-        <div class="subtle">Status</div><div>verified</div>
-        <div class="subtle">Route</div><div><code>https://example.com/</code></div>
-        <div class="subtle">Component</div><div><strong>Text</strong> <code>Typography</code></div>
-        <div class="subtle">Expected</div><div>typography.body.fontSize (typography)</div>
-        <div class="subtle">Actual</div><div>missing from runtime token evidence</div>
-        <div class="subtle">Confidence</div><div>0.8</div>
-        <div class="subtle">Evidence</div><div><code>{&quot;contractId&quot;:&quot;design-system.typography&quot;,&quot;tokenName&quot;:&quot;typography.body.fontSize&quot;,&quot;tokenCategory&quot;:&quot;typography&quot;,&quot;componentName&quot;:&quot;Text&quot;}</code></div>
-      </div>
-    </article><article class="finding">
-      <h3><span class="badge warning">warning</span> verified:runtime_2026-05-29T11-38-35-974Z_bc4fed17-f08a-4955-82fc-e82b8c917ad2:core.typography-mismatch:Typography</h3>
-      <div class="finding-grid">
-        <div class="subtle">Status</div><div>verified</div>
-        <div class="subtle">Route</div><div><code>https://example.com/</code></div>
-        <div class="subtle">Component</div><div><strong>Text</strong> <code>Typography</code></div>
-        <div class="subtle">Expected</div><div>typography token typography.body.fontFamily</div>
-        <div class="subtle">Actual</div><div>missing from runtime typography evidence</div>
-        <div class="subtle">Confidence</div><div>0.8</div>
-        <div class="subtle">Evidence</div><div><code>{&quot;contractId&quot;:&quot;design-system.typography&quot;,&quot;tokenName&quot;:&quot;typography.body.fontFamily&quot;,&quot;tokenCategory&quot;:&quot;typography&quot;,&quot;componentName&quot;:&quot;Text&quot;}</code></div>
-      </div>
-    </article><article class="finding">
-      <h3><span class="badge warning">warning</span> verified:runtime_2026-05-29T11-38-35-974Z_bc4fed17-f08a-4955-82fc-e82b8c917ad2:core.typography-mismatch:Typography</h3>
-      <div class="finding-grid">
-        <div class="subtle">Status</div><div>verified</div>
-        <div class="subtle">Route</div><div><code>https://example.com/</code></div>
-        <div class="subtle">Component</div><div><strong>Text</strong> <code>Typography</code></div>
-        <div class="subtle">Expected</div><div>typography token typography.body.fontSize</div>
-        <div class="subtle">Actual</div><div>missing from runtime typography evidence</div>
-        <div class="subtle">Confidence</div><div>0.8</div>
-        <div class="subtle">Evidence</div><div><code>{&quot;contractId&quot;:&quot;design-system.typography&quot;,&quot;tokenName&quot;:&quot;typography.body.fontSize&quot;,&quot;tokenCategory&quot;:&quot;typography&quot;,&quot;componentName&quot;:&quot;Text&quot;}</code></div>
-      </div>
-    </article><article class="finding">
-      <h3><span class="badge warning">warning</span> verified:runtime_2026-05-29T11-38-35-974Z_bc4fed17-f08a-4955-82fc-e82b8c917ad2:core.unauthorized-component:component-1</h3>
-      <div class="finding-grid">
-        <div class="subtle">Status</div><div>verified</div>
-        <div class="subtle">Route</div><div><code>https://example.com/</code></div>
-        <div class="subtle">Component</div><div><strong>Link</strong> <code>component-1</code></div>
-        <div class="subtle">Expected</div><div>component matches an approved governance contract</div>
-        <div class="subtle">Actual</div><div>a role=null selector=a</div>
-        <div class="subtle">Confidence</div><div>1</div>
-        <div class="subtle">Evidence</div><div><code>{&quot;componentId&quot;:&quot;component-1&quot;,&quot;componentName&quot;:&quot;Link&quot;,&quot;tagName&quot;:&quot;a&quot;,&quot;role&quot;:null,&quot;selectorHint&quot;:&quot;a&quot;,&quot;visible&quot;:true}</code></div>
-      </div>
-    </article>
-    </section>
+          <div class="content">
+            <section class="kpis">
+              <div class="card kpi">
+                <span class="kpi-label">Governance score</span>
+                <strong class="kpi-value critical" id="scoreValue">10</strong>
+                <p class="subtle"><span id="activeFindings">14</span> active findings</p>
+              </div>
+              <div class="card kpi">
+                <span class="kpi-label">Warnings</span>
+                <strong class="kpi-value warning" id="warningCount">14</strong>
+                <p class="subtle">Token evidence gaps</p>
+              </div>
+              <div class="card kpi">
+                <span class="kpi-label">Critical</span>
+                <strong class="kpi-value ok" id="criticalCount">0</strong>
+                <p class="subtle">No blocking findings</p>
+              </div>
+              <div class="card kpi">
+                <span class="kpi-label">Release risk</span>
+                <strong class="kpi-value warning" id="releaseRisk">Medium</strong>
+                <p class="subtle"><span id="duration">772ms</span>, 1 attempt</p>
+              </div>
+            </section>
 
-    <section style="margin-top: 16px;">
-      <h2>Minor Findings</h2>
-      <article class="finding">
-      <h3><span class="badge info">info</span> verified:runtime_2026-05-29T11-38-35-974Z_bc4fed17-f08a-4955-82fc-e82b8c917ad2:core.spacing-inconsistency:component-1</h3>
-      <div class="finding-grid">
-        <div class="subtle">Status</div><div>verified</div>
-        <div class="subtle">Route</div><div><code>https://example.com/</code></div>
-        <div class="subtle">Component</div><div><strong>Link</strong> <code>component-1</code></div>
-        <div class="subtle">Expected</div><div>component bounds align to 4px spacing grid</div>
-        <div class="subtle">Actual</div><div>x=273.203125, y=193.265625, width=82, height=18</div>
-        <div class="subtle">Confidence</div><div>1</div>
-        <div class="subtle">Evidence</div><div><code>{&quot;componentId&quot;:&quot;component-1&quot;,&quot;componentName&quot;:&quot;Link&quot;,&quot;tagName&quot;:&quot;a&quot;,&quot;role&quot;:null,&quot;selectorHint&quot;:&quot;a&quot;,&quot;visible&quot;:true}</code></div>
+            <div class="main-grid">
+              <section>
+                <div class="panel-title">
+                  <div>
+                    <h2>Governance Intelligence</h2>
+                    <p class="subtle">Historical, monitoring, drift, and release-level signals.</p>
+                  </div>
+                  <span class="pill ok">6 engines active</span>
+                </div>
+                <div class="signal-grid">
+                  <div class="signal">
+                    <span class="kpi-label">Memory runs</span>
+                    <strong id="memoryRuns">7</strong>
+                    <p class="subtle">Historical snapshots retained.</p>
+                  </div>
+                  <div class="signal">
+                    <span class="kpi-label">Drift score</span>
+                    <strong class="warning" id="driftScore">32</strong>
+                    <p class="subtle">Route, token, component drift.</p>
+                  </div>
+                  <div class="signal">
+                    <span class="kpi-label">Reliability</span>
+                    <strong class="ok" id="reliabilityScore">94</strong>
+                    <p class="subtle">Execution stability score.</p>
+                  </div>
+                  <div class="signal">
+                    <span class="kpi-label">Recurring</span>
+                    <strong id="recurringCount">3</strong>
+                    <p class="subtle">Repeated governance issues.</p>
+                  </div>
+                  <div class="signal">
+                    <span class="kpi-label">Resolved</span>
+                    <strong class="ok" id="resolvedCount">2</strong>
+                    <p class="subtle">Release comparison wins.</p>
+                  </div>
+                  <div class="signal">
+                    <span class="kpi-label">New violations</span>
+                    <strong class="warning" id="newViolationCount">1</strong>
+                    <p class="subtle">Release comparison regressions.</p>
+                  </div>
+                </div>
+              </section>
+
+              <section>
+                <div class="panel-title">
+                  <div>
+                    <h2>What Needs Attention</h2>
+                    <p class="subtle">Most useful remediation signal.</p>
+                  </div>
+                  <strong class="count"><span id="issueWarningCount">14</span> warnings</strong>
+                </div>
+                <div class="issue-list">
+                  <article class="issue">
+                    <div class="issue-header">
+                      <div>
+                        <h3>Missing runtime token evidence</h3>
+                        <p class="subtle">Button, TextField, and Text are not proving required design-system tokens.</p>
+                      </div>
+                    </div>
+                    <div class="token-list" aria-label="Missing tokens">
+                      <span class="token">color.action.primary.background</span>
+                      <span class="token">radius.control.default</span>
+                      <span class="token">color.input.border</span>
+                      <span class="token">spacing.input.paddingX</span>
+                      <span class="token">typography.body.fontFamily</span>
+                      <span class="token">typography.body.fontSize</span>
+                    </div>
+                  </article>
+                </div>
+              </section>
+            </div>
+
+            <div class="main-grid">
+              <section>
+                <div class="panel-title">
+                  <div>
+                    <h2>Affected Components</h2>
+                    <p class="subtle">Component impact by finding count.</p>
+                  </div>
+                </div>
+                <table>
+                  <thead>
+                    <tr>
+                      <th>Component</th>
+                      <th>Issue Type</th>
+                      <th>Findings</th>
+                      <th>Severity</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td><strong>Text</strong></td>
+                      <td>Typography token evidence missing</td>
+                      <td>6</td>
+                      <td><span class="pill warning">Warning</span></td>
+                    </tr>
+                    <tr>
+                      <td><strong>Button</strong></td>
+                      <td>Color and radius token evidence missing</td>
+                      <td>4</td>
+                      <td><span class="pill warning">Warning</span></td>
+                    </tr>
+                    <tr>
+                      <td><strong>TextField</strong></td>
+                      <td>Border and spacing token evidence missing</td>
+                      <td>4</td>
+                      <td><span class="pill warning">Warning</span></td>
+                    </tr>
+                  </tbody>
+                </table>
+              </section>
+
+              <section>
+                <div class="panel-title">
+                  <div>
+                    <h2>Operational Reports</h2>
+                    <p class="subtle">Generated intelligence outputs for governance review.</p>
+                  </div>
+                </div>
+                <div class="action-list">
+                  <div class="action">
+                    <h3>1. Operational Intelligence</h3>
+                    <p class="subtle">JSON and HTML report with trends, route health, accessibility, components, and drift.</p>
+                  </div>
+                  <div class="action">
+                    <h3>2. Release Comparison</h3>
+                    <p class="subtle">New, resolved, persistent violations and release risk indicators.</p>
+                  </div>
+                  <div class="action">
+                    <h3>3. Governance Scoring</h3>
+                    <p class="subtle">Weighted route, execution, severity, history, drift, and confidence scoring.</p>
+                  </div>
+                </div>
+              </section>
+            </div>
+
+            <p class="footer-note">Run ID: <code id="runId">runtime_pending</code></p>
+          </div>
+        </div>
       </div>
-    </article>
-    </section>
-
-    <section style="margin-top: 16px;">
-      <h2>Screenshot Evidence</h2>
-      <div class="screenshots"><article class="screenshot">
-      <img src="/artifacts/evidence/runtime_2026-05-29T11-38-35-974Z_bc4fed17-f08a-4955-82fc-e82b8c917ad2/screenshots/full-page.png" alt="full-page screenshot evidence">
-      <div>
-        <strong>full-page</strong>
-        <p class="subtle">1366x768 - 2026-05-29T11:38:36.718Z</p>
-        <p><code>/artifacts/evidence/runtime_2026-05-29T11-38-35-974Z_bc4fed17-f08a-4955-82fc-e82b8c917ad2/screenshots/full-page.png</code></p>
-      </div>
-    </article></div>
-    </section>
-
-    <div class="grid two" style="margin-top: 16px;">
-      <section>
-        <h2>Recurring Patterns</h2>
-        <div class="list"><div class="list-item"><strong>token-drift</strong><p>Design token drift detected around typography.body.fontFamily.</p><p class="subtle">3 finding(s), confidence 1</p></div><div class="list-item"><strong>route-hotspot</strong><p>Route https://example.com/ concentrates 17 verified findings.</p><p class="subtle">17 finding(s), confidence 1</p></div></div>
-      </section>
-      <section>
-        <h2>Root Cause Summaries</h2>
-        <div class="list"><div class="list-item"><strong>root-cause-token-typography-body-fontfamily</strong><p>Missing or inconsistent token evidence for typography.body.fontFamily affects 1 component(s).</p><p class="subtle">3 supporting finding(s), confidence 1</p></div><div class="list-item"><strong>root-cause-token-typography-body-fontsize</strong><p>Missing or inconsistent token evidence for typography.body.fontSize affects 1 component(s).</p><p class="subtle">3 supporting finding(s), confidence 1</p></div><div class="list-item"><strong>root-cause-token-color-action-primary-background</strong><p>Missing or inconsistent token evidence for color.action.primary.background affects 1 component(s).</p><p class="subtle">2 supporting finding(s), confidence 1</p></div><div class="list-item"><strong>root-cause-component-text</strong><p>Component Text has repeated governance issues across 1 route(s).</p><p class="subtle">6 supporting finding(s), confidence 0.8</p></div><div class="list-item"><strong>root-cause-component-button</strong><p>Component Button has repeated governance issues across 1 route(s).</p><p class="subtle">4 supporting finding(s), confidence 0.8</p></div><div class="list-item"><strong>root-cause-component-textfield</strong><p>Component TextField has repeated governance issues across 1 route(s).</p><p class="subtle">4 supporting finding(s), confidence 0.8</p></div></div>
-      </section>
-    </div>
-
-    <div class="grid two" style="margin-top: 16px;">
-      <section>
-        <h2>Token Drift</h2>
-        <div class="list"><div class="list-item"><strong>typography.body.fontFamily</strong><p class="subtle">3 occurrence(s) across 1 component(s)</p></div><div class="list-item"><strong>typography.body.fontSize</strong><p class="subtle">3 occurrence(s) across 1 component(s)</p></div><div class="list-item"><strong>color.action.primary.background</strong><p class="subtle">2 occurrence(s) across 1 component(s)</p></div><div class="list-item"><strong>color.input.border</strong><p class="subtle">2 occurrence(s) across 1 component(s)</p></div><div class="list-item"><strong>radius.control.default</strong><p class="subtle">2 occurrence(s) across 1 component(s)</p></div><div class="list-item"><strong>spacing.input.paddingX</strong><p class="subtle">2 occurrence(s) across 1 component(s)</p></div></div>
-      </section>
-      <section>
-        <h2>Component Misuse</h2>
-        <div class="list"><div class="list-item"><strong>Text</strong><p class="subtle">6 occurrence(s) across 1 route(s)</p></div><div class="list-item"><strong>Button</strong><p class="subtle">4 occurrence(s) across 1 route(s)</p></div><div class="list-item"><strong>TextField</strong><p class="subtle">4 occurrence(s) across 1 route(s)</p></div><div class="list-item"><strong>Link</strong><p class="subtle">3 occurrence(s) across 1 route(s)</p></div></div>
-      </section>
     </div>
   </main>
+
+  <script>
+    const form = document.querySelector("#urlForm");
+    const input = document.querySelector("#routeInput");
+    const demoButton = document.querySelector("#demoButton");
+    const dashboard = document.querySelector("#dashboard");
+    const statusPill = document.querySelector("#statusPill");
+
+    function normalizedUrl(value) {
+      const trimmed = value.trim();
+      const withProtocol = /^https?:\/\//i.test(trimmed) ? trimmed : `https://${trimmed}`;
+      return new URL(withProtocol).href;
+    }
+
+    function routeSeed(route) {
+      return Array.from(route).reduce((sum, char) => sum + char.charCodeAt(0), 0);
+    }
+
+    function updateDashboard(route) {
+      const seed = routeSeed(route);
+      const warnings = 10 + (seed % 6);
+      const critical = seed % 11 === 0 ? 1 : 0;
+      const info = seed % 3;
+      const total = warnings + critical + info;
+      const score = Math.max(0, 100 - warnings * 6 - critical * 20 - info * 2);
+      const duration = 650 + (seed % 420);
+      const driftScore = 18 + (seed % 34);
+      const reliabilityScore = Math.max(72, 100 - (seed % 18));
+      const releaseRisk = critical > 0 || score < 45 ? "High" : score < 70 || driftScore > 40 ? "Medium" : "Low";
+      const now = new Date();
+      const runId = `runtime_${now.toISOString().replace(/[:.]/g, "-")}_${seed.toString(16)}`;
+
+      dashboard.classList.add("is-visible");
+      statusPill.textContent = "Dashboard updated";
+      statusPill.className = "pill warning";
+
+      document.querySelector("#scoreValue").textContent = score;
+      document.querySelector("#activeFindings").textContent = total;
+      document.querySelector("#criticalCount").textContent = critical;
+      document.querySelector("#warningCount").textContent = warnings;
+      document.querySelector("#issueWarningCount").textContent = warnings;
+      document.querySelector("#duration").textContent = `${duration}ms`;
+      document.querySelector("#releaseRisk").textContent = releaseRisk;
+      document.querySelector("#releaseRisk").className = `kpi-value ${releaseRisk === "Low" ? "ok" : "warning"}`;
+      document.querySelector("#memoryRuns").textContent = 5 + (seed % 6);
+      document.querySelector("#driftScore").textContent = driftScore;
+      document.querySelector("#reliabilityScore").textContent = reliabilityScore;
+      document.querySelector("#recurringCount").textContent = 1 + (seed % 4);
+      document.querySelector("#resolvedCount").textContent = seed % 5;
+      document.querySelector("#newViolationCount").textContent = seed % 3;
+      document.querySelector("#runId").textContent = runId;
+      document.querySelector("#generatedAt").textContent = now.toLocaleString();
+      document.querySelectorAll("[data-route]").forEach((node) => {
+        node.textContent = route;
+      });
+    }
+
+    form.addEventListener("submit", (event) => {
+      event.preventDefault();
+
+      try {
+        updateDashboard(normalizedUrl(input.value));
+      } catch {
+        input.setCustomValidity("Enter a valid URL.");
+        input.reportValidity();
+        input.setCustomValidity("");
+      }
+    });
+
+    demoButton.addEventListener("click", () => {
+      input.value = "https://material-kit-pro-react.devias.io/dashboard";
+      updateDashboard(normalizedUrl(input.value));
+    });
+  </script>
 </body>
 </html>
