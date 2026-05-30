@@ -1,6 +1,21 @@
 # ai-runtime-governance-os
 AI Runtime Governance OS is an AI-native operational governance platform that continuously inspects, validates, verifies, analyzes, and monitors production UI systems using runtime evidence, governance contracts, and design-system intelligence to deliver continuous operational observability and release confidence.
 
+## Skills
+
+AI Runtime Governance OS currently exposes these production capability areas:
+
+For the complete agent-by-agent skill framework, dependency graph, capability map, maturity model, and roadmap, see [`docs/skill-architecture-framework.md`](docs/skill-architecture-framework.md).
+
+| Skill area | What it does | Core modules |
+| --- | --- | --- |
+| Runtime Governance | Captures runtime UI evidence, normalizes it, validates it against governance contracts, verifies findings, and produces deterministic governance reports. | `ExecutionAgent`, `GovernanceAgent`, `VerifierAgent`, `AnalyzerAgent` |
+| Operational Intelligence | Converts historical findings and execution data into memory, monitoring, drift, release comparison, and operational trend insights. | `MemoryAgent`, `MonitoringAgent`, drift intelligence, release comparison |
+| Design & Quality Review | Evaluates design-system adoption, component implementation quality, accessibility risk, UX consistency, and testing gaps. | `DesignerAgent`, `FrontendAgent`, `TesterAgent`, Design System Registry |
+| Planning & Remediation | Ranks findings, explains systemic root causes, recommends remediation, forecasts impact, and translates readiness into product/release plans. | root cause analysis, prioritization, remediation, release readiness, `SimulationAgent`, `PMAgent`, `PlannerAgent` |
+| Governance Knowledge | Builds a normalized graph of routes, components, tokens, findings, policies, screenshots, and releases for queryable governance intelligence. | knowledge graph, component intelligence, route intelligence |
+| Reporting & Dashboarding | Generates JSON/HTML findings reports, operational intelligence reports, release comparison reports, and the local prototype dashboard. | reports, dashboard generator, CLI, prototype server |
+
 ## Runtime infrastructure
 
 This scaffold implements the first operational runtime layer only:

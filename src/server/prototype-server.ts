@@ -70,7 +70,7 @@ async function handleAudit(request: IncomingMessage, response: ServerResponse): 
       retryPolicy: config.retry.stages,
     });
     const dashboardPath = await new OperationalDashboardGenerator(undefined, {
-      outputDirectory: "prototype/dashboard",
+      outputDirectory: "artifacts/dashboard",
     }).generate({
       findings: result.verifiedFindings,
       insights: result.operationalInsights,
@@ -89,7 +89,7 @@ async function handleAudit(request: IncomingMessage, response: ServerResponse): 
       governanceScore: result.findingsReport.governanceScore.score,
       governanceFindings: result.governanceFindings.length,
       verifiedFindings: result.verifiedFindings.length,
-      dashboardUrl: "/dashboard/",
+      dashboardUrl: "/artifacts/dashboard/",
       dashboardPath,
       evidenceDirectory: result.runtimeEvidence.execution.runId,
       stages: result.metrics.map((metric) => ({
