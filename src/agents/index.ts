@@ -7,4 +7,6 @@ export * from "./monitoring/index.js";
 export * from "./designer/index.js";
 export * from "./frontend/index.js";
 export * from "./tester/index.js";
-export * from "./tester/index.js";
+export * from "./pm/index.js";
+export * from "./planner/index.js";
+export * from "./simulation/index.js";

@@ -333,6 +333,62 @@
       line-height: 1;
     }
 
+    .compact-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 12px;
+    }
+
+    .metric-row {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      gap: 12px;
+      align-items: center;
+      padding: 11px 0;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .metric-row:last-child { border-bottom: 0; padding-bottom: 0; }
+
+    .metric-value {
+      font-size: 18px;
+      font-weight: 800;
+      white-space: nowrap;
+    }
+
+    .timeline {
+      display: grid;
+      gap: 10px;
+      counter-reset: phase;
+    }
+
+    .phase {
+      position: relative;
+      display: grid;
+      gap: 5px;
+      padding: 13px 14px 13px 42px;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      background: var(--panel-soft);
+    }
+
+    .phase::before {
+      counter-increment: phase;
+      content: counter(phase);
+      position: absolute;
+      left: 13px;
+      top: 13px;
+      display: grid;
+      width: 20px;
+      height: 20px;
+      place-items: center;
+      border-radius: 50%;
+      background: var(--nav);
+      color: #fff;
+      font-size: 11px;
+      font-weight: 800;
+    }
+
     .issue-header {
       display: flex;
       align-items: flex-start;
@@ -393,7 +449,7 @@
       .page-header, .url-form, .form-actions, .topbar, .issue-header { display: grid; }
       .app-shell { grid-template-columns: 1fr; }
       .sidebar { display: none; }
-      .kpis, .main-grid, .signal-grid { grid-template-columns: 1fr; }
+      .kpis, .main-grid, .signal-grid, .compact-grid { grid-template-columns: 1fr; }
     }
   </style>
 </head>
@@ -442,36 +498,36 @@
         <div class="workspace">
           <div class="topbar">
             <div class="topbar-title">
-              <h2>Runtime Overview</h2>
+              <h2>Governance Command Center</h2>
               <code data-route>Submit a URL</code>
             </div>
             <div class="topbar-actions">
               <span id="generatedAt">Not generated yet</span>
-              <span class="pill ok">Passed</span>
+              <span class="pill warning" id="decisionPill">Pending</span>
             </div>
           </div>
 
           <div class="content">
             <section class="kpis">
               <div class="card kpi">
+                <span class="kpi-label">Release readiness</span>
+                <strong class="kpi-value warning" id="releaseDecision">Pending</strong>
+                <p class="subtle"><span id="blockingCount">0</span> blocking item(s)</p>
+              </div>
+              <div class="card kpi">
                 <span class="kpi-label">Governance score</span>
                 <strong class="kpi-value critical" id="scoreValue">10</strong>
                 <p class="subtle"><span id="activeFindings">14</span> active findings</p>
               </div>
               <div class="card kpi">
-                <span class="kpi-label">Warnings</span>
-                <strong class="kpi-value warning" id="warningCount">14</strong>
-                <p class="subtle">Token evidence gaps</p>
+                <span class="kpi-label">Risk forecast</span>
+                <strong class="kpi-value warning" id="simulationRisk">Medium</strong>
+                <p class="subtle">Simulation and drift outlook</p>
               </div>
               <div class="card kpi">
-                <span class="kpi-label">Critical</span>
-                <strong class="kpi-value ok" id="criticalCount">0</strong>
-                <p class="subtle">No blocking findings</p>
-              </div>
-              <div class="card kpi">
-                <span class="kpi-label">Release risk</span>
-                <strong class="kpi-value warning" id="releaseRisk">Medium</strong>
-                <p class="subtle"><span id="duration">772ms</span>, 1 attempt</p>
+                <span class="kpi-label">Confidence</span>
+                <strong class="kpi-value ok" id="confidenceScore">82</strong>
+                <p class="subtle">Evidence and monitoring quality</p>
               </div>
             </section>
 
@@ -479,41 +535,41 @@
               <section>
                 <div class="panel-title">
                   <div>
-                    <h2>Governance Intelligence</h2>
-                    <p class="subtle">Historical, monitoring, drift, and release-level signals.</p>
+                    <h2>System Intelligence</h2>
+                    <p class="subtle">Current intelligence layer after the latest governance OS updates.</p>
                   </div>
-                  <span class="pill ok">6 engines active</span>
+                  <span class="pill ok">15 engines active</span>
                 </div>
                 <div class="signal-grid">
                   <div class="signal">
-                    <span class="kpi-label">Memory runs</span>
-                    <strong id="memoryRuns">7</strong>
-                    <p class="subtle">Historical snapshots retained.</p>
+                    <span class="kpi-label">Root causes</span>
+                    <strong id="rootCauseCount">5</strong>
+                    <p class="subtle">Systemic causes identified.</p>
                   </div>
                   <div class="signal">
-                    <span class="kpi-label">Drift score</span>
-                    <strong class="warning" id="driftScore">32</strong>
-                    <p class="subtle">Route, token, component drift.</p>
+                    <span class="kpi-label">Priority plan</span>
+                    <strong id="priorityCount">8</strong>
+                    <p class="subtle">Ranked remediation items.</p>
+                  </div>
+                  <div class="signal">
+                    <span class="kpi-label">Readiness risk</span>
+                    <strong class="warning" id="readinessRisk">42</strong>
+                    <p class="subtle">Release risk score.</p>
+                  </div>
+                  <div class="signal">
+                    <span class="kpi-label">Planner phases</span>
+                    <strong id="plannerPhases">4</strong>
+                    <p class="subtle">Stabilize, remediate, verify, monitor.</p>
+                  </div>
+                  <div class="signal">
+                    <span class="kpi-label">Simulation</span>
+                    <strong class="warning" id="simulationScore">58</strong>
+                    <p class="subtle">Predicted impact score.</p>
                   </div>
                   <div class="signal">
                     <span class="kpi-label">Reliability</span>
                     <strong class="ok" id="reliabilityScore">94</strong>
                     <p class="subtle">Execution stability score.</p>
-                  </div>
-                  <div class="signal">
-                    <span class="kpi-label">Recurring</span>
-                    <strong id="recurringCount">3</strong>
-                    <p class="subtle">Repeated governance issues.</p>
-                  </div>
-                  <div class="signal">
-                    <span class="kpi-label">Resolved</span>
-                    <strong class="ok" id="resolvedCount">2</strong>
-                    <p class="subtle">Release comparison wins.</p>
-                  </div>
-                  <div class="signal">
-                    <span class="kpi-label">New violations</span>
-                    <strong class="warning" id="newViolationCount">1</strong>
-                    <p class="subtle">Release comparison regressions.</p>
                   </div>
                 </div>
               </section>
@@ -521,28 +577,33 @@
               <section>
                 <div class="panel-title">
                   <div>
-                    <h2>What Needs Attention</h2>
-                    <p class="subtle">Most useful remediation signal.</p>
+                    <h2>Release Readiness</h2>
+                    <p class="subtle">Go/no-go signal from score, drift, monitoring, and blockers.</p>
                   </div>
-                  <strong class="count"><span id="issueWarningCount">14</span> warnings</strong>
+                  <strong class="count"><span id="criticalCount">0</span> critical</strong>
                 </div>
-                <div class="issue-list">
-                  <article class="issue">
-                    <div class="issue-header">
-                      <div>
-                        <h3>Missing runtime token evidence</h3>
-                        <p class="subtle">Button, TextField, and Text are not proving required design-system tokens.</p>
-                      </div>
+                <div>
+                  <div class="metric-row">
+                    <div>
+                      <h3>Governance confidence</h3>
+                      <p class="subtle">Evidence quality, monitoring, and verification confidence.</p>
                     </div>
-                    <div class="token-list" aria-label="Missing tokens">
-                      <span class="token">color.action.primary.background</span>
-                      <span class="token">radius.control.default</span>
-                      <span class="token">color.input.border</span>
-                      <span class="token">spacing.input.paddingX</span>
-                      <span class="token">typography.body.fontFamily</span>
-                      <span class="token">typography.body.fontSize</span>
+                    <strong class="metric-value" id="readinessConfidence">82</strong>
+                  </div>
+                  <div class="metric-row">
+                    <div>
+                      <h3>Drift score</h3>
+                      <p class="subtle">Historical drift and degradation pressure.</p>
                     </div>
-                  </article>
+                    <strong class="metric-value warning" id="driftScore">32</strong>
+                  </div>
+                  <div class="metric-row">
+                    <div>
+                      <h3>Blocking findings</h3>
+                      <p class="subtle">Critical or high-priority release blockers.</p>
+                    </div>
+                    <strong class="metric-value critical" id="blockingMetric">0</strong>
+                  </div>
                 </div>
               </section>
             </div>
@@ -551,37 +612,37 @@
               <section>
                 <div class="panel-title">
                   <div>
-                    <h2>Affected Components</h2>
-                    <p class="subtle">Component impact by finding count.</p>
+                    <h2>Prioritized Remediation</h2>
+                    <p class="subtle">Ranked by severity, recurrence, blast radius, route criticality, usage, and accessibility impact.</p>
                   </div>
                 </div>
                 <table>
                   <thead>
                     <tr>
-                      <th>Component</th>
-                      <th>Issue Type</th>
-                      <th>Findings</th>
-                      <th>Severity</th>
+                      <th>Rank</th>
+                      <th>Target</th>
+                      <th>Why it matters</th>
+                      <th>Priority</th>
                     </tr>
                   </thead>
-                  <tbody>
+                  <tbody id="priorityRows">
                     <tr>
-                      <td><strong>Text</strong></td>
-                      <td>Typography token evidence missing</td>
-                      <td>6</td>
-                      <td><span class="pill warning">Warning</span></td>
+                      <td>1</td>
+                      <td><strong>Button</strong><br><span class="subtle">Checkout</span></td>
+                      <td>Accessibility and recurring component risk.</td>
+                      <td><span class="pill critical">Critical</span></td>
                     </tr>
                     <tr>
-                      <td><strong>Button</strong></td>
-                      <td>Color and radius token evidence missing</td>
-                      <td>4</td>
-                      <td><span class="pill warning">Warning</span></td>
+                      <td>2</td>
+                      <td><strong>Input</strong><br><span class="subtle">Settings</span></td>
+                      <td>Token drift and variant contract evidence.</td>
+                      <td><span class="pill warning">High</span></td>
                     </tr>
                     <tr>
-                      <td><strong>TextField</strong></td>
-                      <td>Border and spacing token evidence missing</td>
-                      <td>4</td>
-                      <td><span class="pill warning">Warning</span></td>
+                      <td>3</td>
+                      <td><strong>Card</strong><br><span class="subtle">Reports</span></td>
+                      <td>Policy validation gap on route cluster.</td>
+                      <td><span class="pill info">Medium</span></td>
                     </tr>
                   </tbody>
                 </table>
@@ -590,22 +651,75 @@
               <section>
                 <div class="panel-title">
                   <div>
-                    <h2>Operational Reports</h2>
-                    <p class="subtle">Generated intelligence outputs for governance review.</p>
+                    <h2>Planner Strategy</h2>
+                    <p class="subtle">Execution plan generated from monitoring, history, readiness, and priority data.</p>
                   </div>
                 </div>
-                <div class="action-list">
-                  <div class="action">
-                    <h3>1. Operational Intelligence</h3>
-                    <p class="subtle">JSON and HTML report with trends, route health, accessibility, components, and drift.</p>
+                <div class="timeline">
+                  <div class="phase">
+                    <h3>Stabilize release blockers</h3>
+                    <p class="subtle">Focus critical findings on top-risk routes.</p>
                   </div>
-                  <div class="action">
-                    <h3>2. Release Comparison</h3>
-                    <p class="subtle">New, resolved, persistent violations and release risk indicators.</p>
+                  <div class="phase">
+                    <h3>Remediate root causes</h3>
+                    <p class="subtle">Fix component, token, policy, and variant causes.</p>
                   </div>
-                  <div class="action">
-                    <h3>3. Governance Scoring</h3>
-                    <p class="subtle">Weighted route, execution, severity, history, drift, and confidence scoring.</p>
+                  <div class="phase">
+                    <h3>Verify governance evidence</h3>
+                    <p class="subtle">Re-run accessibility, token, and regression audits.</p>
+                  </div>
+                  <div class="phase">
+                    <h3>Monitor release trend</h3>
+                    <p class="subtle">Track drift and readiness after changes.</p>
+                  </div>
+                </div>
+              </section>
+            </div>
+
+            <div class="main-grid">
+              <section>
+                <div class="panel-title">
+                  <div>
+                    <h2>Root Cause & Recommendations</h2>
+                    <p class="subtle">Systemic causes mapped to deterministic remediation guidance.</p>
+                  </div>
+                </div>
+                <div class="issue-list">
+                  <article class="issue">
+                    <div class="issue-header">
+                      <div>
+                        <h3>Component and token drift are linked</h3>
+                        <p class="subtle">The same routes show component health degradation and missing token evidence.</p>
+                      </div>
+                      <span class="pill warning">Root cause</span>
+                    </div>
+                    <div class="token-list" aria-label="Governance root causes">
+                      <span class="token">Button accessibility</span>
+                      <span class="token">color.action.primary.background</span>
+                      <span class="token">variant.primary</span>
+                      <span class="token">core.token-drift</span>
+                    </div>
+                  </article>
+                </div>
+              </section>
+
+              <section>
+                <div class="panel-title">
+                  <div>
+                    <h2>Simulation & PM Insights</h2>
+                    <p class="subtle">Predicted outcome and stakeholder-ready summary.</p>
+                  </div>
+                </div>
+                <div class="compact-grid">
+                  <div class="signal">
+                    <span class="kpi-label">Forecast</span>
+                    <strong id="forecastLabel">Stable</strong>
+                    <p class="subtle">Release, regression, drift, and risk forecast.</p>
+                  </div>
+                  <div class="signal">
+                    <span class="kpi-label">PM summary</span>
+                    <strong id="pmSummaryMetric">2</strong>
+                    <p class="subtle">Stakeholder updates ready.</p>
                   </div>
                 </div>
               </section>
@@ -642,36 +756,92 @@
       const info = seed % 3;
       const total = warnings + critical + info;
       const score = Math.max(0, 100 - warnings * 6 - critical * 20 - info * 2);
-      const duration = 650 + (seed % 420);
       const driftScore = 18 + (seed % 34);
       const reliabilityScore = Math.max(72, 100 - (seed % 18));
-      const releaseRisk = critical > 0 || score < 45 ? "High" : score < 70 || driftScore > 40 ? "Medium" : "Low";
+      const readinessRisk = Math.min(100, Math.round((100 - score) * 0.42 + driftScore * 0.32 + (100 - reliabilityScore) * 0.26));
+      const confidence = Math.max(45, Math.min(96, Math.round(score * 0.48 + reliabilityScore * 0.34 + (100 - driftScore) * 0.18)));
+      const blocking = critical + (score < 55 ? 1 : 0) + (driftScore > 44 ? 1 : 0);
+      const releaseDecision = blocking > 1 || score < 45 ? "No-go" : blocking === 1 || score < 72 || driftScore > 38 ? "Conditional" : "Go";
+      const simulationScore = Math.min(100, Math.round(readinessRisk * 0.8 + (seed % 16)));
+      const simulationRisk = simulationScore >= 70 ? "High" : simulationScore >= 42 ? "Medium" : "Low";
+      const forecastLabel = simulationScore >= 70 ? "Worsening" : simulationScore >= 35 ? "Stable" : "Improving";
+      const rootCauses = 3 + (seed % 4);
+      const priorityCount = Math.max(3, blocking + Math.ceil(warnings / 3));
       const now = new Date();
       const runId = `runtime_${now.toISOString().replace(/[:.]/g, "-")}_${seed.toString(16)}`;
 
       dashboard.classList.add("is-visible");
       statusPill.textContent = "Dashboard updated";
-      statusPill.className = "pill warning";
+      statusPill.className = `pill ${releaseDecision === "Go" ? "ok" : releaseDecision === "No-go" ? "critical" : "warning"}`;
 
       document.querySelector("#scoreValue").textContent = score;
+      document.querySelector("#scoreValue").className = `kpi-value ${score >= 75 ? "ok" : score >= 50 ? "warning" : "critical"}`;
       document.querySelector("#activeFindings").textContent = total;
       document.querySelector("#criticalCount").textContent = critical;
-      document.querySelector("#warningCount").textContent = warnings;
-      document.querySelector("#issueWarningCount").textContent = warnings;
-      document.querySelector("#duration").textContent = `${duration}ms`;
-      document.querySelector("#releaseRisk").textContent = releaseRisk;
-      document.querySelector("#releaseRisk").className = `kpi-value ${releaseRisk === "Low" ? "ok" : "warning"}`;
-      document.querySelector("#memoryRuns").textContent = 5 + (seed % 6);
+      document.querySelector("#releaseDecision").textContent = releaseDecision;
+      document.querySelector("#releaseDecision").className = `kpi-value ${releaseDecision === "Go" ? "ok" : releaseDecision === "No-go" ? "critical" : "warning"}`;
+      document.querySelector("#decisionPill").textContent = releaseDecision === "Go" ? "Release ready" : releaseDecision === "No-go" ? "Release blocked" : "Conditional release";
+      document.querySelector("#decisionPill").className = `pill ${releaseDecision === "Go" ? "ok" : releaseDecision === "No-go" ? "critical" : "warning"}`;
+      document.querySelector("#blockingCount").textContent = blocking;
+      document.querySelector("#blockingMetric").textContent = blocking;
+      document.querySelector("#readinessRisk").textContent = readinessRisk;
+      document.querySelector("#readinessConfidence").textContent = confidence;
+      document.querySelector("#confidenceScore").textContent = confidence;
+      document.querySelector("#confidenceScore").className = `kpi-value ${confidence >= 75 ? "ok" : confidence >= 55 ? "warning" : "critical"}`;
       document.querySelector("#driftScore").textContent = driftScore;
       document.querySelector("#reliabilityScore").textContent = reliabilityScore;
-      document.querySelector("#recurringCount").textContent = 1 + (seed % 4);
-      document.querySelector("#resolvedCount").textContent = seed % 5;
-      document.querySelector("#newViolationCount").textContent = seed % 3;
+      document.querySelector("#rootCauseCount").textContent = rootCauses;
+      document.querySelector("#priorityCount").textContent = priorityCount;
+      document.querySelector("#simulationScore").textContent = simulationScore;
+      document.querySelector("#simulationRisk").textContent = simulationRisk;
+      document.querySelector("#simulationRisk").className = `kpi-value ${simulationRisk === "Low" ? "ok" : simulationRisk === "High" ? "critical" : "warning"}`;
+      document.querySelector("#forecastLabel").textContent = forecastLabel;
+      document.querySelector("#pmSummaryMetric").textContent = releaseDecision === "Go" ? 1 : 2 + blocking;
+      document.querySelector("#plannerPhases").textContent = 4;
       document.querySelector("#runId").textContent = runId;
       document.querySelector("#generatedAt").textContent = now.toLocaleString();
+      updatePriorityRows({ warnings, critical, driftScore, releaseDecision, route });
       document.querySelectorAll("[data-route]").forEach((node) => {
         node.textContent = route;
       });
+    }
+
+    function priorityBadge(priority) {
+      const className = priority === "Critical" ? "critical" : priority === "High" ? "warning" : "info";
+      return `<span class="pill ${className}">${priority}</span>`;
+    }
+
+    function updatePriorityRows({ warnings, critical, driftScore, releaseDecision, route }) {
+      const routeName = new URL(route).pathname.split("/").filter(Boolean).at(-1) || "route";
+      const rows = [
+        {
+          target: "Button",
+          area: routeName,
+          reason: critical > 0 ? "Critical accessibility blocker and component recurrence." : "Accessibility scenario and component contract risk.",
+          priority: critical > 0 || releaseDecision === "No-go" ? "Critical" : "High",
+        },
+        {
+          target: "Input",
+          area: "forms",
+          reason: "Token drift, variant correction, and registry contract evidence.",
+          priority: driftScore > 40 ? "High" : "Medium",
+        },
+        {
+          target: "Route plan",
+          area: "release",
+          reason: `${warnings} warning signal(s) require remediation sequencing.`,
+          priority: warnings > 13 ? "High" : "Medium",
+        },
+      ];
+
+      document.querySelector("#priorityRows").innerHTML = rows.map((row, index) => `
+        <tr>
+          <td>${index + 1}</td>
+          <td><strong>${row.target}</strong><br><span class="subtle">${row.area}</span></td>
+          <td>${row.reason}</td>
+          <td>${priorityBadge(row.priority)}</td>
+        </tr>
+      `).join("");
     }
 
     form.addEventListener("submit", (event) => {
