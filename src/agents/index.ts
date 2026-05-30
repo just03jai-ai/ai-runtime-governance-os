@@ -4,3 +4,7 @@ export * from "./verifier/index.js";
 export * from "./analyzer/index.js";
 export * from "./memory/index.js";
 export * from "./monitoring/index.js";
+export * from "./designer/index.js";
+export * from "./frontend/index.js";
+export * from "./tester/index.js";
+export * from "./tester/index.js";
