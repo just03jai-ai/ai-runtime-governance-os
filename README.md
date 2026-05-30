@@ -7,6 +7,8 @@ AI Runtime Governance OS currently exposes these production capability areas:
 
 For the complete agent-by-agent skill framework, dependency graph, capability map, maturity model, and roadmap, see [`docs/skill-architecture-framework.md`](docs/skill-architecture-framework.md).
 
+For the industry-wide UI component and variant taxonomy used by design-system and runtime intelligence work, see [`docs/global-ui-component-reference.md`](docs/global-ui-component-reference.md).
+
 | Skill area | What it does | Core modules |
 | --- | --- | --- |
 | Runtime Governance | Captures runtime UI evidence, normalizes it, validates it against governance contracts, verifies findings, and produces deterministic governance reports. | `ExecutionAgent`, `GovernanceAgent`, `VerifierAgent`, `AnalyzerAgent` |

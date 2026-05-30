@@ -4,6 +4,7 @@ import { extname, join, normalize, resolve } from "node:path";
 import { ConfigLoader } from "../config/config-loader.js";
 import { createExecutionRequest, createRuntimePipeline, resolveContractsDirectory } from "../cli/pipeline-factory.js";
 import { OperationalDashboardGenerator } from "../reports/dashboard/operational-dashboard-generator.js";
+import { summarizeComponents } from "../reports/dashboard/operational-dashboard.js";
 
 const port = Number(process.env.PORT ?? 3000);
 const projectRoot = process.cwd();
@@ -78,9 +79,11 @@ async function handleAudit(request: IncomingMessage, response: ServerResponse): 
         ...screenshot,
         path: screenshot.path.startsWith("/") ? screenshot.path : `/${screenshot.path}`,
       })),
+      components: result.runtimeEvidence.componentInventory,
       executionMetrics: result.metrics,
       generatedAt: new Date().toISOString(),
     });
+    const components = summarizeComponents(result.runtimeEvidence.componentInventory);
 
     sendJson(response, 200, {
       runId: result.runtimeEvidence.execution.runId,
@@ -92,6 +95,7 @@ async function handleAudit(request: IncomingMessage, response: ServerResponse): 
       dashboardUrl: "/artifacts/dashboard/",
       dashboardPath,
       evidenceDirectory: result.runtimeEvidence.execution.runId,
+      components: components.slice(0, 25),
       stages: result.metrics.map((metric) => ({
         stage: metric.stage,
         status: metric.status,

@@ -188,6 +188,20 @@
         <section class="panel section">
           <div class="section-head">
             <div>
+              <h2>Component Source Detection</h2>
+              <p class="subtle">Detected components from the submitted URL, mapped to the global UI component reference.</p>
+            </div>
+            <span class="badge ok" id="componentCount">0 detected</span>
+          </div>
+          <table>
+            <thead><tr><th>Component</th><th>Reference Category</th><th>Source</th><th>Tag / Role</th><th>Detected</th></tr></thead>
+            <tbody id="componentRows"></tbody>
+          </table>
+        </section>
+
+        <section class="panel section">
+          <div class="section-head">
+            <div>
               <h2>System Skills</h2>
               <p class="subtle">Current production capabilities available in AI Runtime Governance OS.</p>
             </div>
@@ -293,7 +307,7 @@
       const confidence = Math.max(40, Math.min(96, Math.round(score * .55 + reliability * .45)));
       const blocking = critical + (score < 55 ? 1 : 0);
       const decision = decisionFor(score, blocking, reliability);
-      renderDashboard({ route, runId: result.runId ?? "runtime_unknown", generatedAt: new Date(), score, critical, warnings, info: 0, reliability, confidence, blocking, decision, stages: result.stages ?? [], reportUrl: result.dashboardUrl });
+      renderDashboard({ route, runId: result.runId ?? "runtime_unknown", generatedAt: new Date(), score, critical, warnings, info: 0, reliability, confidence, blocking, decision, stages: result.stages ?? [], reportUrl: result.dashboardUrl, components: result.components ?? [] });
     }
 
     function updateDashboardFromSeed(route) {
@@ -308,7 +322,7 @@
       const decision = decisionFor(score, blocking, reliability);
       const now = new Date();
       const stages = ["execution", "governance", "verification", "analysis", "readiness", "report"].map((stage, index) => ({ stage, status: index < 4 ? "passed" : decision === "No-go" && index === 4 ? "failed" : "passed", durationMs: 120 + ((seed + index * 71) % 900) }));
-      renderDashboard({ route, runId: `runtime_${now.toISOString().replace(/[:.]/g, "-")}_${seed.toString(16)}`, generatedAt: now, score, critical, warnings, info, reliability, confidence, blocking, decision, stages });
+      renderDashboard({ route, runId: `runtime_${now.toISOString().replace(/[:.]/g, "-")}_${seed.toString(16)}`, generatedAt: now, score, critical, warnings, info, reliability, confidence, blocking, decision, stages, components: seededComponents(route) });
     }
 
     function decisionFor(score, blocking, reliability) {
@@ -353,6 +367,7 @@
       renderEvidence(data);
       renderRoutes(data, routePath);
       renderPipeline(data.stages);
+      renderComponents(data.components ?? []);
     }
 
     function renderPriorityRows(data, routePath) {
@@ -376,6 +391,24 @@
 
     function renderPipeline(stages) {
       document.querySelector("#pipelineStages").innerHTML = stages.map((stage, index) => `<div class="stage"><span class="stage-index">${index + 1}</span><strong>${stage.stage}</strong><p class="subtle">${stage.status} · ${stage.durationMs ?? 0}ms</p></div>`).join("");
+    }
+
+    function renderComponents(components) {
+      document.querySelector("#componentCount").textContent = `${components.length} detected`;
+      document.querySelector("#componentRows").innerHTML = components.length
+        ? components.slice(0, 12).map((component) => `<tr><td><strong>${component.componentName}</strong><p class="subtle"><code>${component.selectorHint}</code></p></td><td>${component.category}</td><td><span class="badge ok">${component.source}</span></td><td>${component.tagName}${component.role ? ` / ${component.role}` : ""}</td><td>${component.visibleCount}/${component.count} visible</td></tr>`).join("")
+        : `<tr><td colspan="5" class="subtle">No runtime components detected.</td></tr>`;
+    }
+
+    function seededComponents(route) {
+      const path = new URL(route).pathname || "/";
+      return [
+        { componentName: "Navigation", category: "Navigation", source: "role", tagName: "nav", role: "navigation", selectorHint: "nav", count: 1, visibleCount: 1 },
+        { componentName: "Button", category: "Actions", source: "dom", tagName: "button", selectorHint: "button", count: 4, visibleCount: 4 },
+        { componentName: "Link", category: "Navigation", source: "dom", tagName: "a", selectorHint: "a", count: 6, visibleCount: 6 },
+        { componentName: "TextField", category: "Inputs and Forms", source: "dom", tagName: "input", selectorHint: "input", count: path.includes("dashboard") ? 2 : 1, visibleCount: path.includes("dashboard") ? 2 : 1 },
+        { componentName: "Table", category: "Data Display", source: "runtime-classifier", tagName: "table", selectorHint: "table", count: path.includes("dashboard") ? 1 : 0, visibleCount: path.includes("dashboard") ? 1 : 0 },
+      ].filter((component) => component.count > 0);
     }
 
     function text(selector, value) { document.querySelector(selector).textContent = value; }

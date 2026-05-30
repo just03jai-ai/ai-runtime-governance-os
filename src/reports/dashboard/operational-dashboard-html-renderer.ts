@@ -165,6 +165,11 @@ export class OperationalDashboardHtmlRenderer {
         </div>
 
         <section class="panel section">
+          <div class="section-head"><div><h2>Component Source Detection</h2><p class="subtle">Runtime components classified against the global UI component reference.</p></div><span class="badge ok">${model.componentSummaries.length} detected</span></div>
+          ${this.componentTable(model.componentSummaries)}
+        </section>
+
+        <section class="panel section">
           <div class="section-head"><div><h2>Screenshot Evidence</h2><p class="subtle">Captured runtime state for review.</p></div></div>
           ${this.screenshotGrid(model.screenshots)}
         </section>
@@ -238,6 +243,20 @@ export class OperationalDashboardHtmlRenderer {
           `<div class="stage"><span class="stage-index">${index + 1}</span><strong>${this.escape(metric.stage)}</strong><p class="subtle">${this.escape(metric.status)} - ${metric.durationMs}ms</p></div>`,
       )
       .join("")}</div>`;
+  }
+
+  private componentTable(components: OperationalDashboardModel["componentSummaries"]): string {
+    if (components.length === 0) {
+      return `<div class="empty">No runtime components supplied.</div>`;
+    }
+
+    return `<table><thead><tr><th>Component</th><th>Reference Category</th><th>Source</th><th>Tag / Role</th><th>Detected</th></tr></thead><tbody>${components
+      .slice(0, 12)
+      .map(
+        (component) =>
+          `<tr><td><strong>${this.escape(component.componentName)}</strong><p class="subtle"><code>${this.escape(component.selectorHint)}</code></p></td><td>${this.escape(component.category)}</td><td><span class="badge ok">${this.escape(component.source)}</span></td><td>${this.escape(component.tagName)}${component.role ? ` / ${this.escape(component.role)}` : ""}</td><td>${component.visibleCount}/${component.count} visible</td></tr>`,
+      )
+      .join("")}</tbody></table>`;
   }
 
   private screenshotGrid(screenshots: readonly RuntimeEvidenceScreenshot[]): string {

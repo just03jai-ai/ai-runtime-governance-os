@@ -2,6 +2,8 @@
 
 AI Runtime Governance OS uses deterministic, evidence-backed skills for runtime governance, operational intelligence, design-system analysis, release decisioning, and governance planning. This framework defines ownership boundaries so the platform can scale without adding overlapping agents.
 
+Use [`global-ui-component-reference.md`](global-ui-component-reference.md) as the platform-wide component and variant taxonomy for design-system registry work, runtime evidence classification, governance policy coverage, and future evidence explorer views.
+
 ## Agent Skill Matrix
 
 | Agent | Purpose | Core Skills | Inputs | Outputs | Dependencies | Success Metrics | Failure Conditions | Expansion |
